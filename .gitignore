@@ -1,0 +1,6 @@
+# Compiled python files
+ __pycache__/
+*.pyc
+# Mac specific files
+**/.DS_Store
+**/.idea
