@@ -24,27 +24,27 @@ from scam import SCAM
 1. SET object parameters here
 """
 
-# set model. Options: sam,wrf,umbm,ummf,lmdz,cnrm,scam
+# Set model. Options: sam,wrf,umbm,ummf,lmdz,cnrm,scam
 model = "wrf" # sam,wrf,umbm,ummf,lmdz,cnrm,scam
 
-# for WRF only. Options: kfeta,ntiedtke,nsas,camzm,bmj
+# For WRF only. Options: kfeta,ntiedtke,nsas,camzm,bmj
 scheme = "ntiedtke"
 
-# set to True if standardise to Kuang's (SAM) CRM power input
+# Set to True if standardise to Kuang's (SAM) CRM power input
 standardise_kuang = True
 
-# select functions to run
+# Select functions to run
 plot_M_inv_matrix = True
 plot_anomaly_profiles_2_levels = True
 
-# set one of the following to True (perturb dT/dt or dq/dt)
+# Set one of the following to True (perturb dT/dt or dq/dt)
 perturb_t = True
 perturb_q = False
 
-# set state anomaly to either "T" or "q"
+# Set state anomaly to either "T" or "q"
 state_anomaly = "T"
 
-# perturbation amplitude (0.5 K/d and 0.2 g/kg/d)
+# Perturbation amplitude (0.5 K/d and 0.2 g/kg/d)
 t_amplitude = 0.5
 q_amplitude = 0.2
 
