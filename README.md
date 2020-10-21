@@ -1,5 +1,5 @@
 # SCM responses
-SCM intercomparison project (responses to convective tendency perturbations) based on the Linear Response Function framework of Kuang (2010). 
+SCM intercomparison project based on the Linear Response Function framework of Kuang (2010). Examine model T and q responses to small convective tendency perturbations.
 
 Participating Single-Column Models (SCMs): WRF, LMDZ, CNRM, UM, SCAM
 
