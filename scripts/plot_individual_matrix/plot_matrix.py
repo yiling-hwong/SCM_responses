@@ -30,6 +30,9 @@ model = "wrf" # sam,wrf,umbm,ummf,lmdz,cnrm,scam
 # For WRF only. Options: kfeta,ntiedtke,nsas,camzm,bmj
 scheme = "ntiedtke"
 
+# For LMDZ only. Options: 5a, 6a, 6ab
+lmdz_version = "6ab"
+
 # Set to True if standardise to Kuang's (SAM) CRM power input
 standardise_kuang = True
 
@@ -44,7 +47,7 @@ perturb_q = False
 # Set state anomaly to either "T" or "q"
 state_anomaly = "T"
 
-# Perturbation amplitude (0.5 K/d and 0.2 g/kg/d)
+# Perturbation amplitude (0.5 K/d & 0.2 g/kg/d, or 0.2 K/d & 0.1 g/kg/d )
 t_amplitude = 0.5
 q_amplitude = 0.2
 
@@ -79,7 +82,7 @@ elif model == "ummf":
     target_level_1 = 12
     target_level_2 = 21
 elif model == "lmdz":
-    Model = LMDZ(standardise_kuang=standardise_kuang,perturb_t=perturb_t,perturb_q=perturb_q,state_anomaly=state_anomaly,t_amplitude=t_amplitude,q_amplitude=q_amplitude)
+    Model = LMDZ(lmdz_version=lmdz_version,standardise_kuang=standardise_kuang,perturb_t=perturb_t,perturb_q=perturb_q,state_anomaly=state_anomaly,t_amplitude=t_amplitude,q_amplitude=q_amplitude)
     target_level_1 = 21
     target_level_2 = 29
 elif model == "cnrm":

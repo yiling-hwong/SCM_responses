@@ -33,12 +33,15 @@ def get_temperature_data():
     lines7 = open("../../data/UMMF/REF/RCE_mean_T.csv", "r").readlines()
     lines8 = open("../../data/UMBM/REF/RCE_mean_T.csv", "r").readlines()
     lines9 = open("../../data/SCAM/REF/RCE_mean_T.csv", "r").readlines()
-    lines10 = open("../../data/LMDZ/REF/RCE_mean_T.csv","r").readlines()
+    lines10 = open("../../data/LMDZ/REF/lmdz6a/RCE_mean_T.csv","r").readlines()
+    lines11 = open("../../data/LMDZ/REF/lmdz6ab/RCE_mean_T.csv", "r").readlines()
 
     sam_ref = []
     sam_pres = []
-    lmdz_ref = []
-    lmdz_pres = []
+    lmdz6a_ref = []
+    lmdz6a_pres = []
+    lmdz6ab_ref = []
+    lmdz6ab_pres = []
     scam_ref = []
     scam_pres = []
     wrf_zm_ref = []
@@ -196,18 +199,31 @@ def get_temperature_data():
     ref_all.append(scam_ref)
     pressures_all.append(scam_pres)
 
-    # 10. LMDZ
+    # 10. LMDZ6A
     for line in lines10:
         spline = line.rstrip("\n").split(",")
-        lmdz_pres.append(float(spline[0]))
-        lmdz_ref.append(float(spline[1]))
+        lmdz6a_pres.append(float(spline[0]))
+        lmdz6a_ref.append(float(spline[1]))
 
-    if lmdz_pres[0] > lmdz_pres[1]:
-        lmdz_pres.reverse()
-        lmdz_ref.reverse()
+    if lmdz6a_pres[0] > lmdz6a_pres[1]:
+        lmdz6a_pres.reverse()
+        lmdz6a_ref.reverse()
 
-    ref_all.append(lmdz_ref)
-    pressures_all.append(lmdz_pres)
+    ref_all.append(lmdz6a_ref)
+    pressures_all.append(lmdz6a_pres)
+
+    # 11. LMDZ6Ab
+    for line in lines11:
+        spline = line.rstrip("\n").split(",")
+        lmdz6ab_pres.append(float(spline[0]))
+        lmdz6ab_ref.append(float(spline[1]))
+
+    if lmdz6ab_pres[0] > lmdz6ab_pres[1]:
+        lmdz6ab_pres.reverse()
+        lmdz6ab_ref.reverse()
+
+    ref_all.append(lmdz6ab_ref)
+    pressures_all.append(lmdz6ab_pres)
 
     print ()
     print ("Length of RCE T list (all models):", len(ref_all),len(pressures_all))
@@ -234,12 +250,15 @@ def get_RH_data():
     lines7 = open("../../data/UMMF/REF/RCE_mean_RH.csv", "r").readlines()
     lines8 = open("../../data/UMBM/REF/RCE_mean_RH.csv", "r").readlines()
     lines9 = open("../../data/SCAM/REF/RCE_mean_RH.csv", "r").readlines()
-    lines10 = open("../../data/LMDZ/REF/RCE_mean_RH.csv", "r").readlines()
+    lines10 = open("../../data/LMDZ/REF/lmdz6a/RCE_mean_RH.csv", "r").readlines()
+    lines11 = open("../../data/LMDZ/REF/lmdz6ab/RCE_mean_RH.csv", "r").readlines()
 
     sam_ref = []
     sam_pres = []
-    lmdz_ref = []
-    lmdz_pres = []
+    lmdz6a_ref = []
+    lmdz6a_pres = []
+    lmdz6ab_ref = []
+    lmdz6ab_pres = []
     scam_ref = []
     scam_pres = []
     wrf_zm_ref = []
@@ -395,18 +414,31 @@ def get_RH_data():
     ref_all.append(scam_ref)
     pressures_all.append(scam_pres)
 
-    # 10. LMDZ
+    # 10. LMDZ6A
     for line in lines10:
         spline = line.rstrip("\n").split(",")
-        lmdz_pres.append(float(spline[0]))
-        lmdz_ref.append(float(spline[1]))
+        lmdz6a_pres.append(float(spline[0]))
+        lmdz6a_ref.append(float(spline[1]))
 
-    if lmdz_pres[0] > lmdz_pres[1]:
-        lmdz_pres.reverse()
-        lmdz_ref.reverse()
+    if lmdz6a_pres[0] > lmdz6a_pres[1]:
+        lmdz6a_pres.reverse()
+        lmdz6a_ref.reverse()
 
-    ref_all.append(lmdz_ref)
-    pressures_all.append(lmdz_pres)
+    ref_all.append(lmdz6a_ref)
+    pressures_all.append(lmdz6a_pres)
+
+    # 11. LMDZ6Ab
+    for line in lines11:
+        spline = line.rstrip("\n").split(",")
+        lmdz6ab_pres.append(float(spline[0]))
+        lmdz6ab_ref.append(float(spline[1]))
+
+    if lmdz6ab_pres[0] > lmdz6ab_pres[1]:
+        lmdz6ab_pres.reverse()
+        lmdz6ab_ref.reverse()
+
+    ref_all.append(lmdz6ab_ref)
+    pressures_all.append(lmdz6ab_pres)
 
     print()
     print("Length of RCE RH list (all models):", len(ref_all), len(pressures_all))
@@ -434,7 +466,7 @@ def get_theta_es():
 
     theta_es_all = []
 
-    for i in range(11):
+    for i in range(len(temperature_all_models)):
 
         t_units = temperature_all_models[i] * units.kelvin
         p_units = pressure_all_models[i] * units.mbar
@@ -465,7 +497,8 @@ def get_diff(ref_list,pressure_list):
         if n % 50 == 0:
             common_pressure_list.append(n)
 
-    lmdz_common = []
+    lmdz6a_common = []
+    lmdz6ab_common = []
     scam_common = []
     wrf_kf_common = []
     wrf_zm_common = []
@@ -488,9 +521,10 @@ def get_diff(ref_list,pressure_list):
         ummf_common.append(np.interp(common_pressure_list[n], pressure_list[7], ref_list[7]))
         umbm_common.append(np.interp(common_pressure_list[n], pressure_list[8], ref_list[8]))
         scam_common.append(np.interp(common_pressure_list[n], pressure_list[9], ref_list[9]))
-        lmdz_common.append(np.interp(common_pressure_list[n], pressure_list[10], ref_list[10]))
+        lmdz6a_common.append(np.interp(common_pressure_list[n], pressure_list[10], ref_list[10]))
+        lmdz6ab_common.append(np.interp(common_pressure_list[n], pressure_list[11], ref_list[11]))
 
-    zipped = zip(lmdz_common,scam_common,wrf_zm_common,wrf_kf_common,wrf_nt_common,wrf_nsas_common,wrf_bmj_common,umbm_common,ummf_common,cnrm_common)
+    zipped = zip(lmdz6a_common,lmdz6ab_common,scam_common,wrf_zm_common,wrf_kf_common,wrf_nt_common,wrf_nsas_common,wrf_bmj_common,umbm_common,ummf_common,cnrm_common)
 
     combined = []
 
@@ -521,8 +555,10 @@ def get_diff(ref_list,pressure_list):
     diff_all.append(umbm_diff)
     scam_diff = list(np.array(scam_common) - np.array(scm_average))
     diff_all.append(scam_diff)
-    lmdz_diff = list(np.array(lmdz_common) - np.array(scm_average))
-    diff_all.append(lmdz_diff)
+    lmdz6a_diff = list(np.array(lmdz6a_common) - np.array(scm_average))
+    diff_all.append(lmdz6a_diff)
+    lmdz6ab_diff = list(np.array(lmdz6ab_common) - np.array(scm_average))
+    diff_all.append(lmdz6ab_diff)
 
     print ()
     print ("Length of diff list (all models):",len(diff_all))
@@ -564,11 +600,11 @@ def plot_mean_states():
     label_fontsize = 16
     legend_fontsize = 15
 
-    scm_labels = ["WRF-KF", "WRF-NT", "WRF-NSAS", "WRF-BMJ", "WRF-ZM", "CNRM", "UM-MF", "UM-SBM", "SCAM", "LMDZ"]
+    scm_labels = ["WRF-KF", "WRF-NT", "WRF-NSAS", "WRF-BMJ", "WRF-ZM", "CNRM", "UM-MF", "UM-SBM", "SCAM", "LMDZ6A", "LMDZ6Ab"]
 
     y_label = "P [hPa]"
 
-    fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(12, 11), facecolor='w', edgecolor='k')
+    fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(12, 12), facecolor='w', edgecolor='k')
     fig.subplots_adjust(hspace=.5, wspace=.001)
 
     axs = axs.ravel()
@@ -588,19 +624,19 @@ def plot_mean_states():
     axs[0].set_xticks([320,340,360])
     x_label = "$\it{θ_{es}}$ [K]"
 
-
     axs[0].tick_params(labelsize=tick_fontsize)
 
     axs[0].set_xlabel(x_label, fontsize=label_fontsize)
     axs[0].set_ylabel(y_label, fontsize=label_fontsize)
+
+    axs[0].annotate("(a)", (296, 110), fontsize=label_fontsize, annotation_clip=False)
 
     plt.tight_layout()
 
     # ---------------------
     # PLOT SCM T
 
-
-    for i in range(10):
+    for i in range(len(scm_labels)):
 
         if i == 9:
             axs[1].plot(temperature_all[i+1], pressures_all[i+1], label=scm_labels[i], color="#ffda33")
@@ -618,10 +654,12 @@ def plot_mean_states():
     axs[1].set_xticks([320,340,360])
     x_label = "$\it{θ_{es}}$ [K]"
 
-
     axs[1].tick_params(labelsize=tick_fontsize)
 
     axs[1].set_xlabel(x_label, fontsize=label_fontsize)
+    axs[1].set_ylabel(y_label, fontsize=label_fontsize)
+
+    axs[1].annotate("(b)", (295, 110), fontsize=label_fontsize, annotation_clip=False)
 
     plt.tight_layout()
 
@@ -630,7 +668,7 @@ def plot_mean_states():
 
     print()
 
-    for i in range(10):
+    for i in range(len(scm_labels)):
 
         if i == 9:
             axs[2].plot(temperature_diff[i], common_pressure_list, label=scm_labels[i],color="#ffda33" )
@@ -651,6 +689,9 @@ def plot_mean_states():
     axs[2].tick_params(labelsize=tick_fontsize)
 
     axs[2].set_xlabel(x_label, fontsize=label_fontsize)
+    axs[2].set_ylabel(y_label, fontsize=label_fontsize)
+
+    axs[2].annotate("(c)", (-41, 110), fontsize=label_fontsize, annotation_clip=False)
 
     plt.tight_layout()
 
@@ -679,12 +720,14 @@ def plot_mean_states():
     axs[3].set_xlabel(x_label,fontsize=label_fontsize)
     axs[3].set_ylabel(y_label,fontsize=label_fontsize)
 
+    axs[3].annotate("(d)", (-35, 110), fontsize=label_fontsize, annotation_clip=False)
+
     plt.tight_layout()
 
     #---------------------
     # PLOT SCM RH
 
-    for i in range(10):
+    for i in range(len(scm_labels)):
 
         if i == 9:
             axs[4].plot(rh_all[i + 1], pressures_all[i + 1], label=scm_labels[i], color="#ffda33")
@@ -704,13 +747,16 @@ def plot_mean_states():
     axs[4].tick_params(labelsize=tick_fontsize)
 
     axs[4].set_xlabel(x_label,fontsize=label_fontsize)
+    axs[4].set_ylabel(y_label, fontsize=label_fontsize)
+
+    axs[4].annotate("(e)", (-35, 110), fontsize=label_fontsize, annotation_clip=False)
 
     plt.tight_layout()
 
     #---------------------
     # PLOT SCM DELTA RH
 
-    for i in range(10):
+    for i in range(len(scm_labels)):
 
         if i == 9:
             axs[5].plot(rh_diff[i], common_pressure_list, label=scm_labels[i], color="#ffda33")
@@ -733,12 +779,15 @@ def plot_mean_states():
     axs[5].tick_params(labelsize=tick_fontsize)
 
     axs[5].set_xlabel(x_label, fontsize=label_fontsize)
+    axs[5].set_ylabel(y_label, fontsize=label_fontsize)
+
+    axs[5].annotate("(f)", (-100, 110), fontsize=label_fontsize, annotation_clip=False)
 
     plt.tight_layout()
 
     # COMMON legend
-    fig.subplots_adjust(top=0.9,hspace=0.2)
-    axs.flatten()[2].legend(bbox_to_anchor=(0.7, 1.24), ncol=5, fontsize=legend_fontsize)
+    fig.subplots_adjust(top=0.86, hspace=0.2, wspace=0.4)
+    axs.flatten()[2].legend(bbox_to_anchor=(0.4, 1.34), ncol=4, fontsize=legend_fontsize)
 
     plt.show()
 

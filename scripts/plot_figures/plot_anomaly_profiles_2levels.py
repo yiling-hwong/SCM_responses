@@ -48,6 +48,9 @@ elif state_anomaly == "Q":
 
 import matplotlib.pyplot as plt
 
+folder_list = ["SAM", "WRF", "WRF", "WRF", "WRF", "WRF", "CNRM", "UMMF", "UMBM", "SCAM", "LMDZ"]
+model_list = ["SAM", "kfeta", "ntiedtke", "nsas", "bmj", "camzm", "cnrm", "UMMF", "UMBM", "SCAM", "LMDZ"]
+
 def get_response_data_per_quadrat():
 
     """
@@ -55,11 +58,7 @@ def get_response_data_per_quadrat():
     i.e. T_DTDT or Q_DTDT or T_DQDT or Q_DQDT
     """
 
-    folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ"]
-    model_list = ["SAM","kfeta","ntiedtke","nsas","bmj","camzm","cnrm","UMMF","UMBM","SCAM","LMDZ"]
-
     if perturb_t == True:
-        perturbation_amplitude = "05"
 
         if state_anomaly == "T":
             perturbation = "T_DTDT"
@@ -67,7 +66,6 @@ def get_response_data_per_quadrat():
             perturbation = "Q_DTDT"
 
     elif perturb_q == True:
-        perturbation_amplitude = "02"
 
         if state_anomaly == "T":
             perturbation = "T_DQDT"
@@ -100,6 +98,17 @@ def get_response_data_per_quadrat():
 
     for n in range(len(folder_list)):
 
+        if perturb_t == True:
+            if folder_list[n] == "UMMF":
+                perturbation_amplitude = "02"
+            else:
+                perturbation_amplitude = "05"
+        elif perturb_q == True:
+            if folder_list[n] == "UMMF":
+                perturbation_amplitude = "01"
+            else:
+                perturbation_amplitude = "02"
+
         lines = open("../../data/"+folder_list[n]+"/anomalies/normalised/"+model_list[n]+"_"+perturbation+"_"+perturbation_amplitude+"_norm_kuang.csv","r").readlines()
 
         pressures = []
@@ -124,9 +133,6 @@ def get_responses_data_for_state_anomaly():
     Get responses for all model for either one of the state anomalies
     i.e. either "T" or "q" for both perturbations (dT/dt and dq/dt)
     """
-
-    folder_list = ["SAM", "WRF", "WRF", "WRF", "WRF", "WRF", "CNRM", "UMMF", "UMBM", "SCAM", "LMDZ"]
-    model_list = ["SAM", "kfeta", "ntiedtke", "nsas", "bmj", "camzm", "cnrm", "UMMF", "UMBM", "SCAM", "LMDZ"]
 
     pressures_dtdt = []
     pressures_dqdt = []
@@ -167,7 +173,10 @@ def get_responses_data_for_state_anomaly():
     # DTDT
     for n in range(len(folder_list)):
 
-        lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DTDT_05_norm_kuang.csv", "r").readlines()
+        if folder_list[n] == "UMMF":
+            lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DTDT_02_norm_kuang.csv", "r").readlines()
+        else:
+            lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DTDT_05_norm_kuang.csv", "r").readlines()
 
         pressures = []
         anom_850 = []
@@ -186,7 +195,10 @@ def get_responses_data_for_state_anomaly():
         # DQDT
         for n in range(len(folder_list)):
 
-            lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DQDT_02_norm_kuang.csv","r").readlines()
+            if folder_list[n] == "UMMF":
+                lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DQDT_01_norm_kuang.csv","r").readlines()
+            else:
+                lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DQDT_02_norm_kuang.csv", "r").readlines()
 
             pressures = []
             anom_850 = []

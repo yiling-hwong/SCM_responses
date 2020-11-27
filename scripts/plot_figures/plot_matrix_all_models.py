@@ -11,7 +11,7 @@ This script plots the M^-1 matrix for all models
 
 """
 Select quadrat to plot here
-i.e. T_DTDT, Q_DTDT, T_DQDT, or Q_DQDT
+i.e. T'_DTDT, Q'_DTDT, T'_DQDT, or Q'_DQDT
 """
 
 # set one of the following to True (perturb dT/dt or dq/dt)
@@ -155,6 +155,11 @@ def plot_matrix_all():
     cbar.set_ticks(colorbar_labels)
     cbar.set_ticklabels(colorbar_labels_str)
     cbar.ax.tick_params(labelsize=tick_fontsize)
+
+    if state_anomaly == "T":
+        cbar.ax.set_ylabel("[K]", rotation=0, fontsize=title_fontsize, labelpad=20)
+    elif state_anomaly == "Q":
+        cbar.ax.set_ylabel("[g kg$\mathregular{^{-1}}$]", rotation=0, fontsize=title_fontsize, labelpad=40)
 
     plt.show()
 

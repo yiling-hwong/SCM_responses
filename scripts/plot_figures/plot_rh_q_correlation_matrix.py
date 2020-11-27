@@ -13,6 +13,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 
+"""
+Select parameters to plot here
+"""
+
+perturbation = "q_dtdt"
+use_only_magnitude_of_responses = True # set to True if ignore signs of responses and use only magnitude
+
+
 class MidpointNormalize(colors.Normalize):
     """
     Normalise the colorbar so that diverging bars work their way either side from a prescribed midpoint value)
@@ -60,12 +68,18 @@ def  get_rh_all_models():
     lines7 = open("../../data/UMMF/REF/RCE_mean_RH.csv", "r").readlines()
     lines8 = open("../../data/UMBM/REF/RCE_mean_RH.csv", "r").readlines()
     lines9 = open("../../data/SCAM/REF/RCE_mean_RH.csv", "r").readlines()
-    lines10 = open("../../data/LMDZ/REF/RCE_mean_RH.csv", "r").readlines()
+    lines10 = open("../../data/LMDZ/REF/lmdz6ab/RCE_mean_RH.csv", "r").readlines()
+    lines11 = open("../../data/LMDZ/REF/lmdz6a/RCE_mean_RH.csv", "r").readlines()
+    lines12 = open("../../data/LMDZ/REF/lmdz5a/RCE_mean_RH.csv", "r").readlines()
 
     sam_ref = []
     sam_pres = []
-    lmdz_ref = []
-    lmdz_pres = []
+    lmdz5a_ref = []
+    lmdz5a_pres = []
+    lmdz6a_ref = []
+    lmdz6a_pres = []
+    lmdz6ab_ref = []
+    lmdz6ab_pres = []
     scam_ref = []
     scam_pres = []
     wrf_zm_ref = []
@@ -221,18 +235,44 @@ def  get_rh_all_models():
     ref_all.append(scam_ref)
     pressures_all.append(scam_pres)
 
-    # 10. LMDZ
+    # 10. LMDZ6Ab
     for line in lines10:
         spline = line.rstrip("\n").split(",")
-        lmdz_pres.append(float(spline[0]))
-        lmdz_ref.append(float(spline[1]))
+        lmdz6ab_pres.append(float(spline[0]))
+        lmdz6ab_ref.append(float(spline[1]))
 
-    if lmdz_pres[0] > lmdz_pres[1]:
-        lmdz_pres.reverse()
-        lmdz_ref.reverse()
+    if lmdz6ab_pres[0] > lmdz6ab_pres[1]:
+        lmdz6ab_pres.reverse()
+        lmdz6ab_ref.reverse()
 
-    ref_all.append(lmdz_ref)
-    pressures_all.append(lmdz_pres)
+    ref_all.append(lmdz6ab_ref)
+    pressures_all.append(lmdz6ab_pres)
+
+    # 11. LMDZ6A
+    for line in lines11:
+        spline = line.rstrip("\n").split(",")
+        lmdz6a_pres.append(float(spline[0]))
+        lmdz6a_ref.append(float(spline[1]))
+
+    if lmdz6a_pres[0] > lmdz6a_pres[1]:
+        lmdz6a_pres.reverse()
+        lmdz6a_ref.reverse()
+
+    ref_all.append(lmdz6a_ref)
+    pressures_all.append(lmdz6a_pres)
+
+    # 12. LMDZ5A
+    for line in lines12:
+        spline = line.rstrip("\n").split(",")
+        lmdz5a_pres.append(float(spline[0]))
+        lmdz5a_ref.append(float(spline[1]))
+
+    if lmdz5a_pres[0] > lmdz5a_pres[1]:
+        lmdz5a_pres.reverse()
+        lmdz5a_ref.reverse()
+
+    # ref_all.append(lmdz5a_ref)
+    # pressures_all.append(lmdz5a_pres)
 
     # print()
     # print("Length of RCE RH list (all models):", len(ref_all), len(pressures_all))
@@ -277,10 +317,10 @@ def get_mean_anomalies():
     Get mean anomalies across a horizontal stripe in M^-1 matrices
     """
 
-    perturbation = "q_dtdt"
+    #perturbation = "q_dtdt"
 
-    folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ"]
-    model_list = ["sam","wrf_kfeta","wrf_ntiedtke","wrf_nsas","wrf_bmj","wrf_camzm","cnrm","ummf","umbm","scam","lmdz"]
+    folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ","LMDZ"]
+    model_list = ["sam","wrf_kfeta","wrf_ntiedtke","wrf_nsas","wrf_bmj","wrf_camzm","cnrm","ummf","umbm","scam","lmdz6ab","lmdz6a"]
 
     matrix_all = []
 
@@ -293,6 +333,10 @@ def get_mean_anomalies():
         for line in lines:
             spline = line.rstrip("\n").split(",")
             temp = [float(x) for x in spline]
+
+            if use_only_magnitude_of_responses == True:
+                temp = [abs(float(x)) for x in spline]
+
             matrix.append(temp)
 
         matrix_all.append(matrix)
@@ -358,8 +402,8 @@ def get_pressure_levels_kuang_all_models():
     Get the 18 pressure levels of M^-1 matrix for all models
     """
 
-    folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ"]
-    model_list = ["sam","kfeta","ntiedtke","nsas","bmj","camzm","cnrm","ummf","umbm","scam","lmdz"]
+    folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ","LMDZ"]
+    model_list = ["sam","kfeta","ntiedtke","nsas","bmj","camzm","cnrm","ummf","umbm","scam","lmdz","lmdz"]
 
     pressures_kuang_all = []
 
@@ -401,6 +445,8 @@ def get_anomalies_at_common_pressure_levels():
     anom8 = []
     anom9 = []
     anom10 = []
+    anom11 = []
+    anom12 = []
 
 
     for n in range(len(common_pressure_levels)):
@@ -416,6 +462,8 @@ def get_anomalies_at_common_pressure_levels():
         anom8.append(np.interp(common_pressure_levels[n], pressures_kuang_all[8], anom_means_all[8]))
         anom9.append(np.interp(common_pressure_levels[n], pressures_kuang_all[9], anom_means_all[9]))
         anom10.append(np.interp(common_pressure_levels[n], pressures_kuang_all[10], anom_means_all[10]))
+        anom11.append(np.interp(common_pressure_levels[n], pressures_kuang_all[11], anom_means_all[11]))
+        #anom12.append(np.interp(common_pressure_levels[n], pressures_kuang_all[12], anom_means_all[12]))
 
     print ()
     print ("COMMON PRESSURE LEVELS (hPa):",common_pressure_levels)
@@ -431,20 +479,22 @@ def get_anomalies_at_common_pressure_levels():
     print("UM_MF = ", anom7)
     print("UM_SBM = ", anom8)
     print("SCAM = ", anom9)
-    print("LMDZ = ", anom10)
+    print("LMDZ6Ab = ", anom10)
+    print("LMDZ6A = ", anom11)
+    #print("LMDZ5A = ", anom12)
     print()
 
-    return anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10
+    return anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10,anom11
 
 def get_correlations():
 
     common_pressure_levels = get_common_pressure_list()
     rh_at_common_pressure_levels = get_rh_at_common_pressure_levels()
-    anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10 = get_anomalies_at_common_pressure_levels()
+    anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10,anom11 = get_anomalies_at_common_pressure_levels()
 
-    from scipy.stats import pearsonr
+    from scipy.stats import pearsonr, spearmanr
 
-    zipped = zip(anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10)
+    zipped = zip(anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10,anom11)
 
     anom_zipped = []
 
@@ -464,7 +514,8 @@ def get_correlations():
 
         for n in range(len(common_pressure_levels)):
 
-            correlation,p_value = pearsonr(ref_mean_all,anom_zipped[n])
+            #correlation,p_value = pearsonr(ref_mean_all,anom_zipped[n])
+            correlation, p_value = spearmanr(ref_mean_all, anom_zipped[n])
 
             p = str(round(p_value,3))
 
@@ -529,10 +580,13 @@ def plot_corr_matrix():
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
 
-    plt.xlabel("Pressure of RH [hPa]", fontsize=16, labelpad=12)
-    plt.ylabel("Pressure of q' [hPa]", fontsize=16, labelpad=12)
+    plt.xlabel("Pressure level of RH [hPa]", fontsize=16, labelpad=12)
+    plt.ylabel("Pressure level of q' [hPa]", fontsize=16, labelpad=12)
 
     plt.tight_layout()
+
+    #plt.savefig('/Users/yi-linghwong/Documents/postdoc/publications/paracon_scm_paper/_PLOTS/_FINAL/corr_RH_vs_Q_DTDT_magnitude_only.png',dpi=300)
+    #plt.savefig('/Users/yi-linghwong/Documents/postdoc/publications/paracon_scm_paper/_PLOTS/_FINAL/corr_RH_vs_Q_DTDT.png',dpi=300)
 
     plt.show()
 

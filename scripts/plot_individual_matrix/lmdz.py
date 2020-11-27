@@ -11,8 +11,9 @@ from utils import *
 
 class LMDZ():
 
-    def __init__(self,standardise_kuang,perturb_t,perturb_q,state_anomaly,t_amplitude,q_amplitude):
+    def __init__(self,lmdz_version,standardise_kuang,perturb_t,perturb_q,state_anomaly,t_amplitude,q_amplitude):
 
+        self.lmdz_version = lmdz_version
         self.standardise_kuang = standardise_kuang
         self.perturb_t = perturb_t
         self.perturb_q = perturb_q
@@ -87,6 +88,7 @@ class LMDZ():
         Get anomaly matrix
         """
 
+        lmdz_version = self.lmdz_version
         perturb_t = self.perturb_t
         perturb_q = self.perturb_q
         state_anomaly = self.state_anomaly
@@ -113,7 +115,12 @@ class LMDZ():
         elif state_anomaly == "q":
             var = "Q"
 
-        lines = open("../../data/LMDZ/matrix_X_raw/" + var + "_" + perturbation + "_" + perturbation_amplitude + ".csv","r").readlines()
+        if lmdz_version == "5a":
+            lines = open("../../data/LMDZ/matrix_X_raw/lmdz5a/" + var + "_" + perturbation + "_" + perturbation_amplitude + ".csv","r").readlines()
+        elif lmdz_version == "6a":
+            lines = open("../../data/LMDZ/matrix_X_raw/lmdz6a/" + var + "_" + perturbation + "_" + perturbation_amplitude + ".csv","r").readlines()
+        elif lmdz_version == "6ab":
+            lines = open("../../data/LMDZ/matrix_X_raw/lmdz6ab/" + var + "_" + perturbation + "_" + perturbation_amplitude + ".csv","r").readlines()
 
         x_anomalies = []
 
@@ -245,6 +252,7 @@ class LMDZ():
         2. Normlised by model power input (in K/(Wm^-2) or g/kg/(Wm^2)) (standardised_kuang = False)
         """
 
+        lmdz_version = self.lmdz_version
         perturb_t = self.perturb_t
         perturb_q = self.perturb_q
         state_anomaly = self.state_anomaly
@@ -305,7 +313,12 @@ class LMDZ():
                 vmax = vmax_q
                 vmin = -vmax
 
-        plot_title = "M$\mathregular{^{-1}}$, LMDZ " + plt_title
+        if lmdz_version == "5a":
+            plot_title = "M$\mathregular{^{-1}}$, LMDZ5A " + plt_title
+        elif lmdz_version == "6a":
+            plot_title = "M$\mathregular{^{-1}}$, LMDZ6A " + plt_title
+        elif lmdz_version == "6ab":
+            plot_title = "M$\mathregular{^{-1}}$, LMDZ6Ab " + plt_title
 
         print()
         print("M INVERSE SHAPE:", M_inv.shape)
@@ -314,11 +327,17 @@ class LMDZ():
 
         plot_matrix(M_inv,pressures_x,pressures_y,plot_title,vmin,vmax)
 
-        if write_m_inv_to_file == True:
+        if write_m_inv_to_file == 1:
 
-            file_name = "lmdz_" + file_name
-
-            write_matrix_to_file(M_inv,"LMDZ",file_name)
+            if lmdz_version == "5a":
+                file_name = "lmdz5a_" + file_name
+                write_matrix_to_file(M_inv,"LMDZ",file_name)
+            elif lmdz_version == "6a":
+                file_name = "lmdz6a_" + file_name
+                write_matrix_to_file(M_inv,"LMDZ",file_name)
+            elif lmdz_version == "6ab":
+                file_name = "lmdz6ab_" + file_name
+                write_matrix_to_file(M_inv,"LMDZ",file_name)
 
     def plot_anomaly_profile(self,write_anomaly_to_file,target_level_1,target_level_2,label_level_1,label_level_2):
 
@@ -327,6 +346,7 @@ class LMDZ():
         Optionally write profiles to file
         """
 
+        lmdz_version = self.lmdz_version
         standardise_kuang = self.standardise_kuang
         perturb_t = self.perturb_t
         perturb_q = self.perturb_q
@@ -361,7 +381,12 @@ class LMDZ():
         print ("M^-1 profile length:", len(m_profile_1), len(m_profile_2))
         print ("X profile length:", len(x_profile_1), len(x_profile_2))
 
-        plot_title = "LMDZ"
+        if lmdz_version == "5a":
+            plot_title = "LMDZ5A"
+        elif lmdz_version == "6a":
+            plot_title = "LMDZ6A"
+        elif lmdz_version == "6ab":
+            plot_title = "LMDZ6Ab"
 
         plot_profile(standardise_kuang,pressures_y,x_profile_1,x_profile_2,m_profile_1,m_profile_2,plot_title,label_level_1,label_level_2,state_anomaly)
 

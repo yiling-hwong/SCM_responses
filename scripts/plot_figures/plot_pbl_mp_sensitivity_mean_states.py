@@ -253,9 +253,9 @@ def plot_sensitivity(var):
 
             theta_x_position = theta_es_pbl[i-1] - 2
 
-            ax.annotate("$\it{θ_{e}^{b}}$", (theta_x_position, 975), fontsize=label_fontsize, color="red")
+            ax.annotate("$\overline{θ_{e}^{b}}$", (theta_x_position, 975), fontsize=label_fontsize, color="red")
 
-            ax.annotate("CAPE = "+str(cape_pbl[i-1])+" J kg$\mathregular{^{-1}}$", (333.5, 750), fontsize=cape_fontsize)
+            ax.annotate("$\overline{CAPE}$ = "+str(cape_pbl[i-1])+" J kg$\mathregular{^{-1}}$", (333.5, 750), fontsize=cape_fontsize)
 
             # Plot 2nd overlapping x axis for theta_e_sfc
 
@@ -341,9 +341,9 @@ def plot_sensitivity(var):
 
             theta_x_position = theta_es_mp[i - 5] - 2
 
-            ax.annotate("$\it{θ_{e}^{b}}$", (theta_x_position, 975), fontsize=label_fontsize, color="red")
+            ax.annotate("$\overline{θ_{e}^{b}}$", (theta_x_position, 975), fontsize=label_fontsize, color="red")
 
-            ax.annotate("CAPE = " + str(cape_mp[i - 5]) + " J kg$\mathregular{^{-1}}$", (333.5, 750),
+            ax.annotate("$\overline{CAPE}$ = " + str(cape_mp[i - 5]) + " J kg$\mathregular{^{-1}}$", (333.5, 750),
                         fontsize=cape_fontsize)
 
             # Plot 2nd overlapping x axis for theta_e_sfc
