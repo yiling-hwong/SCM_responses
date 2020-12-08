@@ -28,7 +28,7 @@ from scam import SCAM
 model = "wrf" # sam,wrf,umbm,ummf,lmdz,cnrm,scam
 
 # For WRF only. Options: kfeta,ntiedtke,nsas,camzm,bmj
-scheme = "ntiedtke"
+scheme = "camzm"
 
 # For LMDZ only. Options: 5a, 6a, 6ab
 lmdz_version = "6ab"
@@ -38,7 +38,7 @@ standardise_kuang = True
 
 # Select functions to run
 plot_M_inv_matrix = True
-plot_anomaly_profiles_2_levels = True
+plot_anomaly_profiles_2_levels = False
 
 # Set one of the following to True (perturb dT/dt or dq/dt)
 perturb_t = True

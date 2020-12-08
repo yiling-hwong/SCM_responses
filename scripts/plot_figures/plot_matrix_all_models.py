@@ -41,8 +41,8 @@ def get_matrix_data_all():
         elif state_anomaly == "Q":
             perturbation = "q_dqdt"
 
-    folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ"]
-    model_list = ["sam","kfeta","ntiedtke","nsas","bmj","camzm","cnrm","ummf","umbm","scam","lmdz"]
+    folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ","LMDZ"]
+    model_list = ["sam","kfeta","ntiedtke","nsas","bmj","camzm","cnrm","ummf","umbm","scam","lmdz6a","lmdz6ab"]
 
     pressures_all = []
     matrix_all = []
@@ -62,7 +62,7 @@ def get_matrix_data_all():
 
         for line in lines1:
             spline = line.rstrip("\n")
-            pressures.append(float(spline) / 100)
+            pressures.append(float(spline))
 
         pressures_all.append(pressures)
 
@@ -103,12 +103,9 @@ def plot_matrix_all():
     print ("Plotting all matrices...")
 
     plot_titles = ["(a) SAM (CRM)","(b) WRF-KF","(c) WRF-NT","(d) WRF-NSAS","(e) WRF-BMJ",
-                   "(f) WRF-ZM","(g) CNRM","(h) UM-MF","(i) UM-SBM","(j) SCAM","(k) LMDZ"]
+                   "(f) WRF-ZM","(g) CNRM","(h) UM-MF","(i) UM-SBM","(j) SCAM","(k) LMDZ6A", "(l) LMDZ6Ab"]
 
-    fig, axs = plt.subplots(nrows=3, ncols=4, figsize=(18, 12), facecolor='w', edgecolor='k')
-    fig.subplots_adjust(hspace=.5, wspace=.001)
-
-    fig.delaxes(axs[2, 3])
+    fig, axs = plt.subplots(nrows=3, ncols=4, figsize=(18, 13), facecolor='w', edgecolor='k')
 
     axs = axs.ravel()
 
@@ -118,9 +115,9 @@ def plot_matrix_all():
         matrix = np.array(matrix)
         pressures = pressures_all[i]
 
-        X1, Y1 = np.meshgrid(pressures,pressures)
+        X1, Y1 = np.meshgrid(pressures, pressures)
 
-        im1 = axs[i].pcolor(X1,Y1,matrix,vmin=vmin_,vmax=vmax_,cmap="rainbow")
+        im1 = axs[i].pcolor(X1, Y1, matrix, vmin=vmin_, vmax=vmax_, cmap="rainbow")
 
         axs[i].set_ylim(axs[i].get_ylim()[::-1])  # invert y axis when y axis is pressure
         axs[i].set_xlim(axs[i].get_xlim()[::-1])
@@ -138,9 +135,9 @@ def plot_matrix_all():
         axs[i].tick_params(labelsize=tick_fontsize)
         axs[i].set_title(plot_titles[i], fontsize=title_fontsize)
 
-        plt.tight_layout()
+        plt.tight_layout()  # so that the two plots won't overlap
 
-    # COLORBAR
+    # COLORBAR 2
     m1 = vmin_
     m5 = vmax_
     m2 = float(1 * (m5 - m1) / 4 + m1)
@@ -150,18 +147,78 @@ def plot_matrix_all():
 
     colorbar_labels_str = ["{:.2f}".format(round(x, 2)) for x in colorbar_labels]
 
-    cbaxes = fig.add_axes([0.796, 0.052, 0.013, 0.258]) # [left, bottom, width, height]
-    cbar = fig.colorbar(im1, cax=cbaxes)
+    fig.subplots_adjust(bottom=0.12, hspace=0.32, wspace=0.30)
+    cbaxes = fig.add_axes([0.3, 0.05, 0.438, 0.013])  # [left, bottom, width, height]
+    cbar = fig.colorbar(im1, cax=cbaxes, orientation="horizontal")
     cbar.set_ticks(colorbar_labels)
     cbar.set_ticklabels(colorbar_labels_str)
     cbar.ax.tick_params(labelsize=tick_fontsize)
 
     if state_anomaly == "T":
-        cbar.ax.set_ylabel("[K]", rotation=0, fontsize=title_fontsize, labelpad=20)
+        cbar.ax.set_xlabel("[K]", rotation=0, fontsize=title_fontsize)
     elif state_anomaly == "Q":
-        cbar.ax.set_ylabel("[g kg$\mathregular{^{-1}}$]", rotation=0, fontsize=title_fontsize, labelpad=40)
+        cbar.ax.set_xlabel("[g kg$\mathregular{^{-1}}$]", rotation=0, fontsize=title_fontsize)
+
 
     plt.show()
+
+    # fig, axs = plt.subplots(nrows=3, ncols=4, figsize=(18, 12), facecolor='w', edgecolor='k')
+    # fig.subplots_adjust(hspace=.5, wspace=.001)
+    #
+    # fig.delaxes(axs[2, 3])
+    #
+    # axs = axs.ravel()
+    #
+    # for i in range(len(pressures_all)):
+    #
+    #     matrix = matrix_all[i]
+    #     matrix = np.array(matrix)
+    #     pressures = pressures_all[i]
+    #
+    #     X1, Y1 = np.meshgrid(pressures,pressures)
+    #
+    #     im1 = axs[i].pcolor(X1,Y1,matrix,vmin=vmin_,vmax=vmax_,cmap="rainbow")
+    #
+    #     axs[i].set_ylim(axs[i].get_ylim()[::-1])  # invert y axis when y axis is pressure
+    #     axs[i].set_xlim(axs[i].get_xlim()[::-1])
+    #
+    #     xy_label = "P [hPa]"
+    #     axs[i].set_xlabel(xy_label, fontsize=label_fontsize)
+    #     axs[i].set_ylabel(xy_label, fontsize=label_fontsize)
+    #
+    #     axs[i].set_xlim([1000, 200])
+    #     axs[i].set_xticks([1000, 800, 600, 400, 200])
+    #
+    #     axs[i].set_ylim([1000, 200])
+    #     axs[i].set_yticks([1000, 800, 600, 400, 200])
+    #
+    #     axs[i].tick_params(labelsize=tick_fontsize)
+    #     axs[i].set_title(plot_titles[i], fontsize=title_fontsize)
+    #
+    #     plt.tight_layout()
+    #
+    # # COLORBAR
+    # m1 = vmin_
+    # m5 = vmax_
+    # m2 = float(1 * (m5 - m1) / 4 + m1)
+    # m3 = float(2 * (m5 - m1) / 4 + m1)
+    # m4 = float(3 * (m5 - m1) / 4 + m1)
+    # colorbar_labels = [m1, m2, m3, m4, m5]
+    #
+    # colorbar_labels_str = ["{:.2f}".format(round(x, 2)) for x in colorbar_labels]
+    #
+    # cbaxes = fig.add_axes([0.796, 0.052, 0.013, 0.258]) # [left, bottom, width, height]
+    # cbar = fig.colorbar(im1, cax=cbaxes)
+    # cbar.set_ticks(colorbar_labels)
+    # cbar.set_ticklabels(colorbar_labels_str)
+    # cbar.ax.tick_params(labelsize=tick_fontsize)
+    #
+    # if state_anomaly == "T":
+    #     cbar.ax.set_ylabel("[K]", rotation=0, fontsize=title_fontsize, labelpad=20)
+    # elif state_anomaly == "Q":
+    #     cbar.ax.set_ylabel("[g kg$\mathregular{^{-1}}$]", rotation=0, fontsize=title_fontsize, labelpad=40)
+
+    #-----
 
 
 if __name__ == "__main__":

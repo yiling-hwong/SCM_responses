@@ -17,8 +17,7 @@ import matplotlib.colors as colors
 Select parameters to plot here
 """
 
-perturbation = "q_dtdt"
-use_only_magnitude_of_responses = True # set to True if ignore signs of responses and use only magnitude
+set_negative_anomaly_to_zero = True # set to True if ignore signs of responses and use only magnitude
 
 
 class MidpointNormalize(colors.Normalize):
@@ -317,7 +316,7 @@ def get_mean_anomalies():
     Get mean anomalies across a horizontal stripe in M^-1 matrices
     """
 
-    #perturbation = "q_dtdt"
+    perturbation = "q_dtdt"
 
     folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ","LMDZ"]
     model_list = ["sam","wrf_kfeta","wrf_ntiedtke","wrf_nsas","wrf_bmj","wrf_camzm","cnrm","ummf","umbm","scam","lmdz6ab","lmdz6a"]
@@ -334,8 +333,17 @@ def get_mean_anomalies():
             spline = line.rstrip("\n").split(",")
             temp = [float(x) for x in spline]
 
-            if use_only_magnitude_of_responses == True:
-                temp = [abs(float(x)) for x in spline]
+            if set_negative_anomaly_to_zero == True:
+
+                temp1 = []
+                for t in temp:
+                    if t < 0:
+                        #print (t)
+                        t = 0.0
+                        temp1.append(t)
+                    else:
+                        temp1.append(float(t))
+                temp = temp1
 
             matrix.append(temp)
 
@@ -418,7 +426,7 @@ def get_pressure_levels_kuang_all_models():
 
         for line in lines:
             spline = line.rstrip("\n")
-            pressures.append(float(spline) / 100)
+            pressures.append(float(spline))
 
         pressures.reverse()
         pressures_kuang_all.append(pressures)
@@ -585,8 +593,7 @@ def plot_corr_matrix():
 
     plt.tight_layout()
 
-    #plt.savefig('/Users/yi-linghwong/Documents/postdoc/publications/paracon_scm_paper/_PLOTS/_FINAL/corr_RH_vs_Q_DTDT_magnitude_only.png',dpi=300)
-    #plt.savefig('/Users/yi-linghwong/Documents/postdoc/publications/paracon_scm_paper/_PLOTS/_FINAL/corr_RH_vs_Q_DTDT.png',dpi=300)
+    #plt.savefig('../../../_PLOTS/_FINAL/corr_RH_vs_Q_DTDT_set_negative_to_zero.png',dpi=300)
 
     plt.show()
 

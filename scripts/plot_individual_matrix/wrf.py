@@ -61,7 +61,7 @@ class WRF():
 
         for line in lines1:
             spline = line.rstrip("\n")
-            pressures.append(float(spline))
+            pressures.append(float(spline) * 100)
 
         if pressures[0] < pressures[1]:
             pressures.reverse()

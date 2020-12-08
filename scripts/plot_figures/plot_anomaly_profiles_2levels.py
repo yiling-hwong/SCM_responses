@@ -13,7 +13,7 @@ This script plots the T and q response vertical profiles for all models or selec
 Set parameters here
 """
 
-plot_all_profiles = True
+plot_all_profiles = False
 plot_selected_profiles = True
 
 # set one of the following to True (perturb dT/dt or dq/dt)
@@ -22,7 +22,7 @@ perturb_t = True
 perturb_q = False
 
 # set state anomaly to either "T" or "Q"
-state_anomaly = "T"
+state_anomaly = "Q"
 
 # select index of model to plot (listed below)
 # used only if plot_selected_profiles = True
@@ -49,7 +49,7 @@ elif state_anomaly == "Q":
 import matplotlib.pyplot as plt
 
 folder_list = ["SAM", "WRF", "WRF", "WRF", "WRF", "WRF", "CNRM", "UMMF", "UMBM", "SCAM", "LMDZ"]
-model_list = ["SAM", "kfeta", "ntiedtke", "nsas", "bmj", "camzm", "cnrm", "UMMF", "UMBM", "SCAM", "LMDZ"]
+model_list = ["SAM", "kfeta", "ntiedtke", "nsas", "bmj", "camzm", "cnrm", "UMMF", "UMBM", "SCAM", "LMDZ6Ab"]
 
 def get_response_data_per_quadrat():
 
@@ -255,7 +255,7 @@ def plot_responses_all():
     print ("Plotting responses for all models...")
 
     plot_titles = ["(a) Perturbation","(b) SAM (CRM)","(c) WRF-KF","(d) WRF-NT","(e) WRF-NSAS",
-                   "(f) WRF-BMJ","(g) WRF-ZM","(h) CNRM","(i) UM-MF","(j) UM-SBM","(k) SCAM","(l) LMDZ"]
+                   "(f) WRF-BMJ","(g) WRF-ZM","(h) CNRM","(i) UM-MF","(j) UM-SBM","(k) SCAM","(l) LMDZ6Ab"]
 
     fig, axs = plt.subplots(nrows=3, ncols=4, figsize=(12, 13), facecolor='w', edgecolor='k')
     fig.subplots_adjust(hspace=.5, wspace=.001)
@@ -381,7 +381,7 @@ def plot_responses_selected():
         axs[i].set_title(plot_title, fontsize=title_fontsize)
 
         if i != 0:
-            empty_string_labels = [''] * len(model_index_to_plot)
+            empty_string_labels = [''] * 9
             axs[i].set_yticklabels(empty_string_labels)
 
         if i == 0:
@@ -430,7 +430,7 @@ def plot_responses_selected():
         axs[i+4].set_title(plot_title, fontsize=title_fontsize)
 
         if i != 0:
-            empty_string_labels = [''] * len(model_index_to_plot)
+            empty_string_labels = [''] * 9
             axs[i+4].set_yticklabels(empty_string_labels)
 
         if i == 0:

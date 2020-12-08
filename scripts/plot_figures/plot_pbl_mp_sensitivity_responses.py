@@ -284,7 +284,7 @@ def plot_sensitivity(sensitivity):
         ax.set_xlabel(x_label, fontsize=label_fontsize)
 
         if i != 1:
-            empty_string_labels = [''] * 4
+            empty_string_labels = [''] * 9
             ax.set_yticklabels(empty_string_labels)
 
         if i == 1:
@@ -344,7 +344,7 @@ def plot_sensitivity(sensitivity):
         ax.set_xlabel(x_label, fontsize=label_fontsize)
 
         if i != 5:
-            empty_string_labels = [''] * 4
+            empty_string_labels = [''] * 9
             ax.set_yticklabels(empty_string_labels)
 
         if i == 5:
