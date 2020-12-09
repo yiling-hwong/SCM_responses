@@ -13,22 +13,22 @@ This script plots the T and q response vertical profiles for all models or selec
 Set parameters here
 """
 
-plot_all_profiles = False
+plot_all_profiles = True
 plot_selected_profiles = True
 
 # set one of the following to True (perturb dT/dt or dq/dt)
 # Only used if plot_all_profiles = True
-perturb_t = True
-perturb_q = False
+perturb_t = False
+perturb_q = True
 
-# set state anomaly to either "T" or "Q"
-state_anomaly = "Q"
+# set state anomaly to either "T" or "q"
+state_anomaly = "T"
 
 # select index of model to plot (listed below)
 # used only if plot_selected_profiles = True
 if state_anomaly == "T":
     model_index_to_plot = [0,1,7,8] # SAM, CNRM + UM-MF for T'
-elif state_anomaly == "Q":
+elif state_anomaly == "q":
     model_index_to_plot = [0,1,5,4] # SAM, WRF-BMJ and WRF-NSAS for q'
 
 # 0=perturbation shape
@@ -99,12 +99,12 @@ def get_response_data_per_quadrat():
     for n in range(len(folder_list)):
 
         if perturb_t == True:
-            if folder_list[n] == "UMMF":
+            if model_list[n] == "SCAM" or model_list[n] == "UMMF" or model_list[n] == "LMDZ6Ab":
                 perturbation_amplitude = "02"
             else:
                 perturbation_amplitude = "05"
         elif perturb_q == True:
-            if folder_list[n] == "UMMF":
+            if model_list[n] == "SCAM" or model_list[n] == "UMMF" or model_list[n] == "LMDZ6Ab":
                 perturbation_amplitude = "01"
             else:
                 perturbation_amplitude = "02"
@@ -367,7 +367,7 @@ def plot_responses_selected():
                 axs[i].set_xticks([-0.3, 0.0, 0.3, 0.6, 0.9])
                 x_label = "T' [K]"
 
-            if state_anomaly == "Q":
+            if state_anomaly == "q":
                 axs[i].set_xlim([-0.3, 0.5])  # for q'
                 axs[i].set_xticks([-0.2, 0.0, 0.2, 0.4])
                 x_label = "q' [g kg$\mathregular{^{-1}}$]"
@@ -415,7 +415,7 @@ def plot_responses_selected():
                 axs[i+4].set_xticks([-0.3, 0.0, 0.3, 0.6, 0.9])
                 x_label = "T' [K]"
 
-            if state_anomaly == "Q":
+            if state_anomaly == "q":
                 axs[i+4].set_xlim([-0.3, 0.5])  # for q'
                 axs[i+4].set_xticks([-0.2, 0.0, 0.2, 0.4])
                 x_label = "q' [g kg$\mathregular{^{-1}}$]"

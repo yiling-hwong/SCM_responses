@@ -18,8 +18,8 @@ i.e. T'_DTDT, Q'_DTDT, T'_DQDT, or Q'_DQDT
 perturb_t = True
 perturb_q = False
 
-# set state anomaly to either "T" or "Q"
-state_anomaly = "T"
+# set state anomaly to either "T" or "q"
+state_anomaly = "q"
 
 #-------------------------
 
@@ -32,13 +32,13 @@ def get_matrix_data_all():
     if perturb_t == True:
         if state_anomaly == "T":
             perturbation = "t_dtdt"
-        elif state_anomaly == "Q":
+        elif state_anomaly == "q":
             perturbation = "q_dtdt"
 
     elif perturb_q == True:
         if state_anomaly == "T":
             perturbation = "t_dqdt"
-        elif state_anomaly == "Q":
+        elif state_anomaly == "q":
             perturbation = "q_dqdt"
 
     folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ","LMDZ"]
@@ -91,7 +91,7 @@ def plot_matrix_all():
     if state_anomaly == "T":
         vmax_ = 0.5
         vmin_ = -vmax_
-    if state_anomaly == "Q":
+    if state_anomaly == "q":
         vmax_ = 0.3
         vmin_ = -vmax_
 
@@ -156,7 +156,7 @@ def plot_matrix_all():
 
     if state_anomaly == "T":
         cbar.ax.set_xlabel("[K]", rotation=0, fontsize=title_fontsize)
-    elif state_anomaly == "Q":
+    elif state_anomaly == "q":
         cbar.ax.set_xlabel("[g kg$\mathregular{^{-1}}$]", rotation=0, fontsize=title_fontsize)
 
 
@@ -215,7 +215,7 @@ def plot_matrix_all():
     #
     # if state_anomaly == "T":
     #     cbar.ax.set_ylabel("[K]", rotation=0, fontsize=title_fontsize, labelpad=20)
-    # elif state_anomaly == "Q":
+    # elif state_anomaly == "q":
     #     cbar.ax.set_ylabel("[g kg$\mathregular{^{-1}}$]", rotation=0, fontsize=title_fontsize, labelpad=40)
 
     #-----
