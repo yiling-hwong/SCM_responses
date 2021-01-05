@@ -40,7 +40,7 @@ def get_data(scheme):
 
         responses = []
 
-        lines = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised_non_idealised/"+scheme+"_"
+        lines = open("../../data/WRF/pbl_mp_sensitivity/response_profiles_non_idealised/"+scheme+"_"
                      +configurations[i]+"_"+sensitivities[i]+"_"+vars[i]
                      +"_"+perturbations[i]+"_norm.csv","r").readlines()
 

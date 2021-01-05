@@ -22,22 +22,25 @@ def get_temperature_data():
     :return: 2 lists: T and pressures of all models
     """
 
-    lines0 = open("../../data/SAM/REF/T.csv","r").readlines()
+    lines0 = open("../../data/SAM/REF/T.csv", "r").readlines()
     lines0b = open("../../data/SAM/REF/p.csv", "r").readlines()
     lines1 = open("../../data/WRF/REF/kfeta_pbl_ysu_T.csv", "r").readlines()
     lines2 = open("../../data/WRF/REF/ntiedtke_pbl_ysu_T.csv", "r").readlines()
-    lines3 = open("../../data/WRF/REF/nsas_pbl_ysu_T.csv", "r").readlines()
-    lines4 = open("../../data/WRF/REF/bmj_pbl_ysu_T.csv", "r").readlines()
-    lines5 = open("../../data/WRF/REF/camzm_pbl_mp_uw_T.csv", "r").readlines()
-    lines6 = open("../../data/CNRM/REF/RCE_mean_T.csv", "r").readlines()
-    lines7 = open("../../data/UMMF/REF/RCE_mean_T.csv", "r").readlines()
-    lines8 = open("../../data/UMBM/REF/RCE_mean_T.csv", "r").readlines()
-    lines9 = open("../../data/SCAM/REF/RCE_mean_T.csv", "r").readlines()
-    lines10 = open("../../data/LMDZ/REF/lmdz6a/RCE_mean_T.csv","r").readlines()
-    lines11 = open("../../data/LMDZ/REF/lmdz6ab/RCE_mean_T.csv", "r").readlines()
+    lines3 = open("../../data/WRF/REF/bmj_pbl_ysu_T.csv", "r").readlines()
+    lines4 = open("../../data/WRF/REF/camzm_pbl_mp_uw_T.csv", "r").readlines()
+    lines5 = open("../../data/WRF/REF/nsas_pbl_ysu_T.csv", "r").readlines()
+    lines6 = open("../../data/UMMF/REF/RCE_mean_T.csv", "r").readlines()
+    lines7 = open("../../data/UMBM/REF/RCE_mean_T.csv", "r").readlines()
+    lines8 = open("../../data/SCAM/REF/RCE_mean_T.csv", "r").readlines()
+    lines9 = open("../../data/CNRM/REF/RCE_mean_T.csv", "r").readlines()
+    lines10 = open("../../data/LMDZ/REF/lmdz5a/RCE_mean_T.csv", "r").readlines()
+    lines11 = open("../../data/LMDZ/REF/lmdz6a/RCE_mean_T.csv", "r").readlines()
+    lines12 = open("../../data/LMDZ/REF/lmdz6ab/RCE_mean_T.csv", "r").readlines()
 
     sam_ref = []
     sam_pres = []
+    lmdz5a_ref = []
+    lmdz5a_pres = []
     lmdz6a_ref = []
     lmdz6a_pres = []
     lmdz6ab_ref = []
@@ -107,21 +110,8 @@ def get_temperature_data():
     ref_all.append(wrf_nt_ref)
     pressures_all.append(wrf_nt_pres)
 
-    # 3. WRF nsas
+    # 3. WRF bmj
     for line in lines3:
-        spline = line.rstrip("\n").split(",")
-        wrf_nsas_pres.append(float(spline[0]))
-        wrf_nsas_ref.append(float(spline[1]))
-
-    if wrf_nsas_pres[0] > wrf_nsas_pres[1]:
-        wrf_nsas_pres.reverse()
-        wrf_nsas_ref.reverse()
-
-    ref_all.append(wrf_nsas_ref)
-    pressures_all.append(wrf_nsas_pres)
-
-    # 4. WRF bmj
-    for line in lines4:
         spline = line.rstrip("\n").split(",")
         wrf_bmj_pres.append(float(spline[0]))
         wrf_bmj_ref.append(float(spline[1]))
@@ -133,8 +123,8 @@ def get_temperature_data():
     ref_all.append(wrf_bmj_ref)
     pressures_all.append(wrf_bmj_pres)
 
-    # 5. WRF camzm
-    for line in lines5:
+    # 4. WRF camzm
+    for line in lines4:
         spline = line.rstrip("\n").split(",")
         wrf_zm_pres.append(float(spline[0]))
         wrf_zm_ref.append(float(spline[1]))
@@ -146,22 +136,21 @@ def get_temperature_data():
     ref_all.append(wrf_zm_ref)
     pressures_all.append(wrf_zm_pres)
 
-    # 6. CNRM
-    for line in lines6:
+    # 5. WRF nsas
+    for line in lines5:
         spline = line.rstrip("\n").split(",")
-        cnrm_pres.append(float(spline[0]))
-        cnrm_ref.append(float(spline[1]))
+        wrf_nsas_pres.append(float(spline[0]))
+        wrf_nsas_ref.append(float(spline[1]))
 
-    if cnrm_pres[0] > cnrm_pres[1]:
-        cnrm_pres.reverse()
-        cnrm_ref.reverse()
+    if wrf_nsas_pres[0] > wrf_nsas_pres[1]:
+        wrf_nsas_pres.reverse()
+        wrf_nsas_ref.reverse()
 
-    ref_all.append(cnrm_ref)
-    pressures_all.append(cnrm_pres)
+    ref_all.append(wrf_nsas_ref)
+    pressures_all.append(wrf_nsas_pres)
 
-
-    # 7. UMMF
-    for line in lines7:
+    # 6. UMMF
+    for line in lines6:
         spline = line.rstrip("\n").split(",")
         ummf_pres.append(float(spline[0]))
         ummf_ref.append(float(spline[1]))
@@ -173,8 +162,8 @@ def get_temperature_data():
     ref_all.append(ummf_ref)
     pressures_all.append(ummf_pres)
 
-    # 8. UMBM
-    for line in lines8:
+    # 7. UMBM
+    for line in lines7:
         spline = line.rstrip("\n").split(",")
         umbm_pres.append(float(spline[0]))
         umbm_ref.append(float(spline[1]))
@@ -186,8 +175,8 @@ def get_temperature_data():
     ref_all.append(umbm_ref)
     pressures_all.append(umbm_pres)
 
-    # 9. SCAM
-    for line in lines9:
+    # 8. SCAM
+    for line in lines8:
         spline = line.rstrip("\n").split(",")
         scam_pres.append(float(spline[0]))
         scam_ref.append(float(spline[1]))
@@ -199,8 +188,34 @@ def get_temperature_data():
     ref_all.append(scam_ref)
     pressures_all.append(scam_pres)
 
-    # 10. LMDZ6A
+    # 9. CNRM
+    for line in lines9:
+        spline = line.rstrip("\n").split(",")
+        cnrm_pres.append(float(spline[0]))
+        cnrm_ref.append(float(spline[1]))
+
+    if cnrm_pres[0] > cnrm_pres[1]:
+        cnrm_pres.reverse()
+        cnrm_ref.reverse()
+
+    ref_all.append(cnrm_ref)
+    pressures_all.append(cnrm_pres)
+
+    # 10. LMDZ5A
     for line in lines10:
+        spline = line.rstrip("\n").split(",")
+        lmdz5a_pres.append(float(spline[0]))
+        lmdz5a_ref.append(float(spline[1]))
+
+    if lmdz5a_pres[0] > lmdz5a_pres[1]:
+        lmdz5a_pres.reverse()
+        lmdz5a_ref.reverse()
+
+    ref_all.append(lmdz5a_ref)
+    pressures_all.append(lmdz5a_pres)
+
+    # 11. LMDZ6A
+    for line in lines11:
         spline = line.rstrip("\n").split(",")
         lmdz6a_pres.append(float(spline[0]))
         lmdz6a_ref.append(float(spline[1]))
@@ -212,8 +227,8 @@ def get_temperature_data():
     ref_all.append(lmdz6a_ref)
     pressures_all.append(lmdz6a_pres)
 
-    # 11. LMDZ6Ab
-    for line in lines11:
+    # 12. LMDZ6Ab
+    for line in lines12:
         spline = line.rstrip("\n").split(",")
         lmdz6ab_pres.append(float(spline[0]))
         lmdz6ab_ref.append(float(spline[1]))
@@ -243,18 +258,21 @@ def get_RH_data():
     lines0b = open("../../data/SAM/REF/p.csv", "r").readlines()
     lines1 = open("../../data/WRF/REF/kfeta_pbl_ysu_rh.csv", "r").readlines()
     lines2 = open("../../data/WRF/REF/ntiedtke_pbl_ysu_rh.csv", "r").readlines()
-    lines3 = open("../../data/WRF/REF/nsas_pbl_ysu_rh.csv", "r").readlines()
-    lines4 = open("../../data/WRF/REF/bmj_pbl_ysu_rh.csv", "r").readlines()
-    lines5 = open("../../data/WRF/REF/camzm_pbl_mp_uw_rh.csv", "r").readlines()
-    lines6 = open("../../data/CNRM/REF/RCE_mean_RH.csv", "r").readlines()
-    lines7 = open("../../data/UMMF/REF/RCE_mean_RH.csv", "r").readlines()
-    lines8 = open("../../data/UMBM/REF/RCE_mean_RH.csv", "r").readlines()
-    lines9 = open("../../data/SCAM/REF/RCE_mean_RH.csv", "r").readlines()
-    lines10 = open("../../data/LMDZ/REF/lmdz6a/RCE_mean_RH.csv", "r").readlines()
-    lines11 = open("../../data/LMDZ/REF/lmdz6ab/RCE_mean_RH.csv", "r").readlines()
+    lines3 = open("../../data/WRF/REF/bmj_pbl_ysu_rh.csv", "r").readlines()
+    lines4 = open("../../data/WRF/REF/camzm_pbl_mp_uw_rh.csv", "r").readlines()
+    lines5 = open("../../data/WRF/REF/nsas_pbl_ysu_rh.csv", "r").readlines()
+    lines6 = open("../../data/UMMF/REF/RCE_mean_RH.csv", "r").readlines()
+    lines7 = open("../../data/UMBM/REF/RCE_mean_RH.csv", "r").readlines()
+    lines8 = open("../../data/SCAM/REF/RCE_mean_RH.csv", "r").readlines()
+    lines9 = open("../../data/CNRM/REF/RCE_mean_RH.csv", "r").readlines()
+    lines10 = open("../../data/LMDZ/REF/lmdz5a/RCE_mean_RH.csv", "r").readlines()
+    lines11 = open("../../data/LMDZ/REF/lmdz6a/RCE_mean_RH.csv", "r").readlines()
+    lines12 = open("../../data/LMDZ/REF/lmdz6ab/RCE_mean_RH.csv", "r").readlines()
 
     sam_ref = []
     sam_pres = []
+    lmdz5a_ref = []
+    lmdz5a_pres = []
     lmdz6a_ref = []
     lmdz6a_pres = []
     lmdz6ab_ref = []
@@ -323,21 +341,8 @@ def get_RH_data():
     ref_all.append(wrf_nt_ref)
     pressures_all.append(wrf_nt_pres)
 
-    # 3. WRF nsas
+    # 3. WRF bmj
     for line in lines3:
-        spline = line.rstrip("\n").split(",")
-        wrf_nsas_pres.append(float(spline[0]))
-        wrf_nsas_ref.append(float(spline[1]))
-
-    if wrf_nsas_pres[0] > wrf_nsas_pres[1]:
-        wrf_nsas_pres.reverse()
-        wrf_nsas_ref.reverse()
-
-    ref_all.append(wrf_nsas_ref)
-    pressures_all.append(wrf_nsas_pres)
-
-    # 4. WRF bmj
-    for line in lines4:
         spline = line.rstrip("\n").split(",")
         wrf_bmj_pres.append(float(spline[0]))
         wrf_bmj_ref.append(float(spline[1]))
@@ -349,8 +354,8 @@ def get_RH_data():
     ref_all.append(wrf_bmj_ref)
     pressures_all.append(wrf_bmj_pres)
 
-    # 5. WRF camzm
-    for line in lines5:
+    # 4. WRF camzm
+    for line in lines4:
         spline = line.rstrip("\n").split(",")
         wrf_zm_pres.append(float(spline[0]))
         wrf_zm_ref.append(float(spline[1]))
@@ -362,21 +367,21 @@ def get_RH_data():
     ref_all.append(wrf_zm_ref)
     pressures_all.append(wrf_zm_pres)
 
-    # 6. CNRM
-    for line in lines6:
+    # 5. WRF nsas
+    for line in lines5:
         spline = line.rstrip("\n").split(",")
-        cnrm_pres.append(float(spline[0]))
-        cnrm_ref.append(float(spline[1]))
+        wrf_nsas_pres.append(float(spline[0]))
+        wrf_nsas_ref.append(float(spline[1]))
 
-    if cnrm_pres[0] > cnrm_pres[1]:
-        cnrm_pres.reverse()
-        cnrm_ref.reverse()
+    if wrf_nsas_pres[0] > wrf_nsas_pres[1]:
+        wrf_nsas_pres.reverse()
+        wrf_nsas_ref.reverse()
 
-    ref_all.append(cnrm_ref)
-    pressures_all.append(cnrm_pres)
+    ref_all.append(wrf_nsas_ref)
+    pressures_all.append(wrf_nsas_pres)
 
-    # 7. UMMF
-    for line in lines7:
+    # 6. UMMF
+    for line in lines6:
         spline = line.rstrip("\n").split(",")
         ummf_pres.append(float(spline[0]))
         ummf_ref.append(float(spline[1]))
@@ -388,8 +393,8 @@ def get_RH_data():
     ref_all.append(ummf_ref)
     pressures_all.append(ummf_pres)
 
-    # 8. UMBM
-    for line in lines8:
+    # 7. UMBM
+    for line in lines7:
         spline = line.rstrip("\n").split(",")
         umbm_pres.append(float(spline[0]))
         umbm_ref.append(float(spline[1]))
@@ -401,8 +406,8 @@ def get_RH_data():
     ref_all.append(umbm_ref)
     pressures_all.append(umbm_pres)
 
-    # 9. SCAM
-    for line in lines9:
+    # 8. SCAM
+    for line in lines8:
         spline = line.rstrip("\n").split(",")
         scam_pres.append(float(spline[0]))
         scam_ref.append(float(spline[1]))
@@ -414,8 +419,34 @@ def get_RH_data():
     ref_all.append(scam_ref)
     pressures_all.append(scam_pres)
 
-    # 10. LMDZ6A
+    # 9. CNRM
+    for line in lines9:
+        spline = line.rstrip("\n").split(",")
+        cnrm_pres.append(float(spline[0]))
+        cnrm_ref.append(float(spline[1]))
+
+    if cnrm_pres[0] > cnrm_pres[1]:
+        cnrm_pres.reverse()
+        cnrm_ref.reverse()
+
+    ref_all.append(cnrm_ref)
+    pressures_all.append(cnrm_pres)
+
+    # 10. LMDZ5A
     for line in lines10:
+        spline = line.rstrip("\n").split(",")
+        lmdz5a_pres.append(float(spline[0]))
+        lmdz5a_ref.append(float(spline[1]))
+
+    if lmdz5a_pres[0] > lmdz5a_pres[1]:
+        lmdz5a_pres.reverse()
+        lmdz5a_ref.reverse()
+
+    ref_all.append(lmdz5a_ref)
+    pressures_all.append(lmdz5a_pres)
+
+    # 11. LMDZ6A
+    for line in lines11:
         spline = line.rstrip("\n").split(",")
         lmdz6a_pres.append(float(spline[0]))
         lmdz6a_ref.append(float(spline[1]))
@@ -427,8 +458,8 @@ def get_RH_data():
     ref_all.append(lmdz6a_ref)
     pressures_all.append(lmdz6a_pres)
 
-    # 11. LMDZ6Ab
-    for line in lines11:
+    # 12. LMDZ6Ab
+    for line in lines12:
         spline = line.rstrip("\n").split(",")
         lmdz6ab_pres.append(float(spline[0]))
         lmdz6ab_ref.append(float(spline[1]))
@@ -497,6 +528,7 @@ def get_diff(ref_list,pressure_list):
         if n % 50 == 0:
             common_pressure_list.append(n)
 
+    lmdz5a_common = []
     lmdz6a_common = []
     lmdz6ab_common = []
     scam_common = []
@@ -514,17 +546,18 @@ def get_diff(ref_list,pressure_list):
 
         wrf_kf_common.append(np.interp(common_pressure_list[n], pressure_list[1], ref_list[1]))
         wrf_nt_common.append(np.interp(common_pressure_list[n], pressure_list[2], ref_list[2]))
-        wrf_nsas_common.append(np.interp(common_pressure_list[n], pressure_list[3], ref_list[3]))
-        wrf_bmj_common.append(np.interp(common_pressure_list[n], pressure_list[4], ref_list[4]))
-        wrf_zm_common.append(np.interp(common_pressure_list[n], pressure_list[5], ref_list[5]))
-        cnrm_common.append(np.interp(common_pressure_list[n], pressure_list[6], ref_list[6]))
-        ummf_common.append(np.interp(common_pressure_list[n], pressure_list[7], ref_list[7]))
-        umbm_common.append(np.interp(common_pressure_list[n], pressure_list[8], ref_list[8]))
-        scam_common.append(np.interp(common_pressure_list[n], pressure_list[9], ref_list[9]))
-        lmdz6a_common.append(np.interp(common_pressure_list[n], pressure_list[10], ref_list[10]))
-        lmdz6ab_common.append(np.interp(common_pressure_list[n], pressure_list[11], ref_list[11]))
+        wrf_bmj_common.append(np.interp(common_pressure_list[n], pressure_list[3], ref_list[3]))
+        wrf_zm_common.append(np.interp(common_pressure_list[n], pressure_list[4], ref_list[4]))
+        wrf_nsas_common.append(np.interp(common_pressure_list[n], pressure_list[5], ref_list[5]))
+        ummf_common.append(np.interp(common_pressure_list[n], pressure_list[6], ref_list[6]))
+        umbm_common.append(np.interp(common_pressure_list[n], pressure_list[7], ref_list[7]))
+        scam_common.append(np.interp(common_pressure_list[n], pressure_list[8], ref_list[8]))
+        cnrm_common.append(np.interp(common_pressure_list[n], pressure_list[9], ref_list[9]))
+        lmdz5a_common.append(np.interp(common_pressure_list[n], pressure_list[10], ref_list[10]))
+        lmdz6a_common.append(np.interp(common_pressure_list[n], pressure_list[11], ref_list[11]))
+        lmdz6ab_common.append(np.interp(common_pressure_list[n], pressure_list[12], ref_list[12]))
 
-    zipped = zip(lmdz6a_common,lmdz6ab_common,scam_common,wrf_zm_common,wrf_kf_common,wrf_nt_common,wrf_nsas_common,wrf_bmj_common,umbm_common,ummf_common,cnrm_common)
+    zipped = zip(lmdz5a_common,lmdz6a_common,lmdz6ab_common,scam_common,wrf_zm_common,wrf_kf_common,wrf_nt_common,wrf_nsas_common,wrf_bmj_common,umbm_common,ummf_common,cnrm_common)
 
     combined = []
 
@@ -541,20 +574,22 @@ def get_diff(ref_list,pressure_list):
     diff_all.append(wrf_kf_diff)
     wrf_nt_diff = list(np.array(wrf_nt_common) - np.array(scm_average))
     diff_all.append(wrf_nt_diff)
-    wrf_nsas_diff = list(np.array(wrf_nsas_common) - np.array(scm_average))
-    diff_all.append(wrf_nsas_diff)
     wrf_bmj_diff = list(np.array(wrf_bmj_common) - np.array(scm_average))
     diff_all.append(wrf_bmj_diff)
     wrf_zm_diff = list(np.array(wrf_zm_common) - np.array(scm_average))
     diff_all.append(wrf_zm_diff)
-    cnrm_diff = list(np.array(cnrm_common) - np.array(scm_average))
-    diff_all.append(cnrm_diff)
+    wrf_nsas_diff = list(np.array(wrf_nsas_common) - np.array(scm_average))
+    diff_all.append(wrf_nsas_diff)
     ummf_diff = list(np.array(ummf_common) - np.array(scm_average))
     diff_all.append(ummf_diff)
     umbm_diff = list(np.array(umbm_common) - np.array(scm_average))
     diff_all.append(umbm_diff)
     scam_diff = list(np.array(scam_common) - np.array(scm_average))
     diff_all.append(scam_diff)
+    cnrm_diff = list(np.array(cnrm_common) - np.array(scm_average))
+    diff_all.append(cnrm_diff)
+    lmdz5a_diff = list(np.array(lmdz5a_common) - np.array(scm_average))
+    diff_all.append(lmdz5a_diff)
     lmdz6a_diff = list(np.array(lmdz6a_common) - np.array(scm_average))
     diff_all.append(lmdz6a_diff)
     lmdz6ab_diff = list(np.array(lmdz6ab_common) - np.array(scm_average))
@@ -573,7 +608,6 @@ def plot_mean_states():
     Main function to plot RCE T and RH profiles for all models
     """
 
-
     pressures_all = get_RH_data()[1]
     temperature_all = get_theta_es()
     rh_all = get_RH_data()[0]
@@ -590,7 +624,6 @@ def plot_mean_states():
         x_zero.append(0.0)
 
 
-
     #############################
     # PLOT TEMPERATURE
     #############################
@@ -600,7 +633,7 @@ def plot_mean_states():
     label_fontsize = 16
     legend_fontsize = 15
 
-    scm_labels = ["WRF-KF", "WRF-NT", "WRF-NSAS", "WRF-BMJ", "WRF-ZM", "CNRM", "UM-MF", "UM-SBM", "SCAM", "LMDZ6A", "LMDZ6Ab"]
+    scm_labels = ["WRF-KF", "WRF-NT", "WRF-BMJ", "WRF-ZM", "WRF-NSAS", "UM-MF", "UM-SBM", "SCAM", "CNRM", "LMDZ5A", "LMDZ6A", "LMDZ6Ab"]
 
     y_label = "P [hPa]"
 
@@ -638,9 +671,10 @@ def plot_mean_states():
 
     for i in range(len(scm_labels)):
 
-        if i == 9:
+        if i == 10:
             axs[1].plot(temperature_all[i+1], pressures_all[i+1], label=scm_labels[i], color="#ffda33")
-
+        elif i == 11:
+            axs[1].plot(temperature_all[i+1], pressures_all[i+1], label=scm_labels[i], color="#00ff00")
         else:
             axs[1].plot(temperature_all[i+1], pressures_all[i+1], label=scm_labels[i])
 
@@ -670,9 +704,10 @@ def plot_mean_states():
 
     for i in range(len(scm_labels)):
 
-        if i == 9:
+        if i == 10:
             axs[2].plot(temperature_diff[i], common_pressure_list, label=scm_labels[i],color="#ffda33" )
-
+        elif i == 11:
+            axs[2].plot(temperature_diff[i], common_pressure_list, label=scm_labels[i],color="#00ff00" )
         else:
             axs[2].plot(temperature_diff[i], common_pressure_list, label=scm_labels[i])
 
@@ -729,9 +764,10 @@ def plot_mean_states():
 
     for i in range(len(scm_labels)):
 
-        if i == 9:
+        if i == 10:
             axs[4].plot(rh_all[i + 1], pressures_all[i + 1], label=scm_labels[i], color="#ffda33")
-
+        elif i == 11:
+            axs[4].plot(rh_all[i + 1], pressures_all[i + 1], label=scm_labels[i], color="#00ff00")
         else:
             axs[4].plot(rh_all[i + 1], pressures_all[i + 1], label=scm_labels[i])
 
@@ -758,9 +794,10 @@ def plot_mean_states():
 
     for i in range(len(scm_labels)):
 
-        if i == 9:
+        if i == 10:
             axs[5].plot(rh_diff[i], common_pressure_list, label=scm_labels[i], color="#ffda33")
-
+        elif i == 11:
+            axs[5].plot(rh_diff[i], common_pressure_list, label=scm_labels[i], color="#00ff00")
         else:
             axs[5].plot(rh_diff[i], common_pressure_list, label=scm_labels[i])
 

@@ -24,25 +24,25 @@ import matplotlib.pyplot as plt
 
 def get_data(sensitivity):
 
-    lines1 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/kfeta_" + sensitivity + "_sensitivity_t_dtdt_norm.csv","r").readlines()
-    lines2 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/ntiedtke_" + sensitivity + "_sensitivity_t_dtdt_norm.csv","r").readlines()
-    lines3 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/nsas_" + sensitivity + "_sensitivity_t_dtdt_norm.csv","r").readlines()
-    lines4 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/bmj_" + sensitivity + "_sensitivity_t_dtdt_norm.csv","r").readlines()
+    lines1 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/kfeta_" + sensitivity + "_sensitivity_t_dtdt_norm.csv","r").readlines()
+    lines2 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/ntiedtke_" + sensitivity + "_sensitivity_t_dtdt_norm.csv","r").readlines()
+    lines3 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/nsas_" + sensitivity + "_sensitivity_t_dtdt_norm.csv","r").readlines()
+    lines4 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/bmj_" + sensitivity + "_sensitivity_t_dtdt_norm.csv","r").readlines()
 
-    lines5 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/kfeta_" + sensitivity + "_sensitivity_t_dqdt_norm.csv","r").readlines()
-    lines6 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/ntiedtke_" + sensitivity + "_sensitivity_t_dqdt_norm.csv","r").readlines()
-    lines7 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/nsas_" + sensitivity + "_sensitivity_t_dqdt_norm.csv","r").readlines()
-    lines8 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/bmj_" + sensitivity + "_sensitivity_t_dqdt_norm.csv","r").readlines()
+    lines5 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/kfeta_" + sensitivity + "_sensitivity_t_dqdt_norm.csv","r").readlines()
+    lines6 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/ntiedtke_" + sensitivity + "_sensitivity_t_dqdt_norm.csv","r").readlines()
+    lines7 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/nsas_" + sensitivity + "_sensitivity_t_dqdt_norm.csv","r").readlines()
+    lines8 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/bmj_" + sensitivity + "_sensitivity_t_dqdt_norm.csv","r").readlines()
 
-    lines9 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/kfeta_" + sensitivity + "_sensitivity_q_dtdt_norm.csv","r").readlines()
-    lines10 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/ntiedtke_" + sensitivity + "_sensitivity_q_dtdt_norm.csv","r").readlines()
-    lines11 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/nsas_" + sensitivity + "_sensitivity_q_dtdt_norm.csv","r").readlines()
-    lines12 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/bmj_" + sensitivity + "_sensitivity_q_dtdt_norm.csv","r").readlines()
+    lines9 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/kfeta_" + sensitivity + "_sensitivity_q_dtdt_norm.csv","r").readlines()
+    lines10 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/ntiedtke_" + sensitivity + "_sensitivity_q_dtdt_norm.csv","r").readlines()
+    lines11 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/nsas_" + sensitivity + "_sensitivity_q_dtdt_norm.csv","r").readlines()
+    lines12 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/bmj_" + sensitivity + "_sensitivity_q_dtdt_norm.csv","r").readlines()
 
-    lines13 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/kfeta_" + sensitivity + "_sensitivity_q_dqdt_norm.csv","r").readlines()
-    lines14 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/ntiedtke_" + sensitivity + "_sensitivity_q_dqdt_norm.csv","r").readlines()
-    lines15 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/nsas_" + sensitivity + "_sensitivity_q_dqdt_norm.csv","r").readlines()
-    lines16 = open("../../data/WRF/pbl_mp_sensitivity/responses_normalised/bmj_" + sensitivity + "_sensitivity_q_dqdt_norm.csv","r").readlines()
+    lines13 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/kfeta_" + sensitivity + "_sensitivity_q_dqdt_norm.csv","r").readlines()
+    lines14 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/ntiedtke_" + sensitivity + "_sensitivity_q_dqdt_norm.csv","r").readlines()
+    lines15 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/nsas_" + sensitivity + "_sensitivity_q_dqdt_norm.csv","r").readlines()
+    lines16 = open("../../data/WRF/pbl_mp_sensitivity/response_profiles/bmj_" + sensitivity + "_sensitivity_q_dqdt_norm.csv","r").readlines()
 
     kfeta_t_dtdt = []
     ntiedtke_t_dtdt = []

@@ -113,7 +113,7 @@ def get_response_data_per_quadrat():
             else:
                 perturbation_amplitude = "02"
 
-        lines = open("../../data/"+folder_list[n]+"/anomalies/normalised/"+model_list[n]+"_"+perturbation+"_"+perturbation_amplitude+"_norm_kuang.csv","r").readlines()
+        lines = open("../../data/"+folder_list[n]+"/response_profiles/"+model_list[n]+"_"+perturbation+"_"+perturbation_amplitude+"_norm_kuang.csv","r").readlines()
 
         pressures = []
         anom_850 = []
@@ -178,9 +178,9 @@ def get_responses_data_for_state_anomaly():
     for n in range(len(folder_list)):
 
         if model_list[n] == "SCAM" or model_list[n] == "UMMF" or model_list[n] == "LMDZ6Ab":
-            lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DTDT_02_norm_kuang.csv", "r").readlines()
+            lines = open("../../data/" + folder_list[n] + "/response_profiles/" + model_list[n] + "_" + state_anomaly + "_DTDT_02_norm_kuang.csv", "r").readlines()
         else:
-            lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DTDT_05_norm_kuang.csv", "r").readlines()
+            lines = open("../../data/" + folder_list[n] + "/response_profiles/" + model_list[n] + "_" + state_anomaly + "_DTDT_05_norm_kuang.csv", "r").readlines()
 
         pressures = []
         anom_850 = []
@@ -200,9 +200,9 @@ def get_responses_data_for_state_anomaly():
         for n in range(len(folder_list)):
 
             if model_list[n] == "SCAM" or model_list[n] == "UMMF" or model_list[n] == "LMDZ6Ab":
-                lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DQDT_01_norm_kuang.csv","r").readlines()
+                lines = open("../../data/" + folder_list[n] + "/response_profiles/" + model_list[n] + "_" + state_anomaly + "_DQDT_01_norm_kuang.csv","r").readlines()
             else:
-                lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DQDT_02_norm_kuang.csv", "r").readlines()
+                lines = open("../../data/" + folder_list[n] + "/response_profiles/" + model_list[n] + "_" + state_anomaly + "_DQDT_02_norm_kuang.csv", "r").readlines()
 
             pressures = []
             anom_850 = []

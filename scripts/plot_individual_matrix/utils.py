@@ -455,7 +455,7 @@ def write_profiles_to_file(standardise_kuang,pressures, x_profile_1, x_profile_2
 
     if standardise_kuang == True:
 
-        path1 = "../../data/"+model_path+"/anomalies/normalised/"+file_name+"_norm_kuang.csv"
+        path1 = "../../data/"+model_path+"/response_profiles/"+file_name+"_norm_kuang.csv"
         f_norm_kuang = open(path1,"w")
         print ()
         print (path1)
@@ -467,8 +467,8 @@ def write_profiles_to_file(standardise_kuang,pressures, x_profile_1, x_profile_2
 
     elif standardise_kuang == False:
 
-        path2 = "../../data/"+model_folder+"/anomalies/normalised/"+file_name+"_norm_power.csv"
-        path3 = "../../data/"+model_folder+"/anomalies/normalised/"+file_name+"_raw.csv"
+        path2 = "../../data/"+model_folder+"/response_profiles/"+file_name+"_norm_power.csv"
+        path3 = "../../data/"+model_folder+"/response_profiles/"+file_name+"_raw.csv"
 
         print ()
         print (path2)

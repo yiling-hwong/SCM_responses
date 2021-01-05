@@ -25,7 +25,7 @@ from scam import SCAM
 """
 
 # Set model. Options: sam,wrf,umbm,ummf,lmdz,cnrm,scam
-model = "lmdz" # sam,wrf,umbm,ummf,lmdz,cnrm,scam
+model = "wrf" # sam,wrf,umbm,ummf,lmdz,cnrm,scam
 
 # For WRF only. Options: kfeta,ntiedtke,nsas,camzm,bmj
 scheme = "camzm"
@@ -38,7 +38,7 @@ standardise_kuang = True
 
 # Select functions to run
 plot_M_inv_matrix = True
-plot_anomaly_profiles_2_levels = False # plot anomaly profiles for 850 and 650 hPa
+plot_anomaly_profiles_2_levels = True # plot anomaly profiles for 850 and 650 hPa
 
 # Set one of the following to True (perturb dT/dt or dq/dt)
 perturb_t = True
@@ -48,11 +48,8 @@ perturb_q = False
 state_anomaly = "T"
 
 # Perturbation amplitude (0.5 K/d & 0.2 g/kg/d, or 0.2 K/d & 0.1 g/kg/d )
-t_amplitude = 0.2
-q_amplitude = 0.1
-
-label_level_1 = "850 hPa"
-label_level_2 = "650 hPa"
+t_amplitude = 0.5
+q_amplitude = 0.2
 
 """
 2. Create object for selected Model
@@ -64,6 +61,9 @@ label_level_2 = "650 hPa"
 # LMDZ: 21 for 850hpa, 26 for 730hpa, 29 for 650hpa, 31 for ~560hpa (579hpa)
 # CNRM: 15 for 850hpa, 20 for 730hpa, 23 for 650hpa, 26 for 560hpa
 # SCAM: 11 for 850hpa, 16 for 730hpa, 18 for 650hpa, 21 for ~560hpa (546hpa)
+
+label_level_1 = "850 hPa"
+label_level_2 = "650 hPa"
 
 if model == "sam":
     Model = SAM(standardise_kuang=standardise_kuang, perturb_t=perturb_t, perturb_q=perturb_q,state_anomaly=state_anomaly,t_amplitude=t_amplitude, q_amplitude=q_amplitude)
