@@ -97,7 +97,6 @@ class WRF():
         """
 
         scheme = self.scheme
-        standardise_kuang = self.standardise_kuang
         perturb_t = self.perturb_t
         perturb_q = self.perturb_q
         state_anomaly = self.state_anomaly
@@ -107,14 +106,31 @@ class WRF():
         start_level_t = self.start_level_t
         end_level_t = self.end_level_t
 
-        lines = open("../../data/WRF/matrix_X_raw/" + scheme + "/matrix_X_raw_all_t05q02.csv","r").readlines()
+        lines1 = open("../../data/WRF/matrix_X_raw/" + scheme + "/matrix_X_raw_all_post05q02.csv","r").readlines()
+        lines2 = open("../../data/WRF/matrix_X_raw/" + scheme + "/matrix_X_raw_all_negt05q02.csv", "r").readlines()
 
+        anom_pos = []
+        anom_neg = []
         x_anomalies = []
 
-        for line in lines:
+        for line in lines1:
             spline = line.rstrip("\n").split(",")
             spline = [float(s) for s in spline]
-            x_anomalies.append(spline)
+            anom_pos.append(spline)
+
+        for line in lines2:
+            spline = line.rstrip("\n").split(",")
+            spline = [float(s) for s in spline]
+            anom_neg.append(spline)
+
+        # averaging
+
+        for index, value in enumerate(anom_pos):
+            pos_list = value
+            neg_list = anom_neg[index]
+
+            avg = list(map(lambda x, y: (x - y) / 2, pos_list, neg_list))
+            x_anomalies.append(avg)
 
         X_matrix_complete = np.array(x_anomalies)
 

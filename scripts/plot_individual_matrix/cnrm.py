@@ -112,12 +112,16 @@ class CNRM():
         elif state_anomaly == "q":
             var = "Q"
 
-        lines = open("../../data/CNRM/matrix_X_raw/" + var + "_" + perturbation + "_" + perturbation_amplitude + ".csv",
+        lines1 = open("../../data/CNRM/matrix_X_raw/" + var + "_" + perturbation + "_pos" + perturbation_amplitude + ".csv",
+            "r").readlines()
+        lines2 = open("../../data/CNRM/matrix_X_raw/" + var + "_" + perturbation + "_neg" + perturbation_amplitude + ".csv",
             "r").readlines()
 
+        anom_pos = []
+        anom_neg = []
         x_anomalies = []
 
-        for line in lines:
+        for line in lines1:
             spline = line.rstrip("\n").split(",")
 
             if perturb_t == True:
@@ -126,7 +130,27 @@ class CNRM():
             if perturb_q == True:
                 spline = [float(x) * (0.2 / q_amplitude) for x in spline]
 
-            x_anomalies.append(spline)
+            anom_pos.append(spline)
+
+        for line in lines2:
+            spline = line.rstrip("\n").split(",")
+
+            if perturb_t == True:
+                spline = [float(x) * (0.5 / t_amplitude) for x in spline]
+
+            if perturb_q == True:
+                spline = [float(x) * (0.2 / q_amplitude) for x in spline]
+
+            anom_neg.append(spline)
+
+        # averaging
+
+        for index, value in enumerate(anom_pos):
+            pos_list = value
+            neg_list = anom_neg[index]
+
+            avg = list(map(lambda x, y: (x - y) / 2, pos_list, neg_list))
+            x_anomalies.append(avg)
 
         X_anomaly_matrix = np.array(x_anomalies)
 

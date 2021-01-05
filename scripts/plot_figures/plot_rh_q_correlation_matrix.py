@@ -270,8 +270,8 @@ def  get_rh_all_models():
         lmdz5a_pres.reverse()
         lmdz5a_ref.reverse()
 
-    # ref_all.append(lmdz5a_ref)
-    # pressures_all.append(lmdz5a_pres)
+    ref_all.append(lmdz5a_ref)
+    pressures_all.append(lmdz5a_pres)
 
     # print()
     # print("Length of RCE RH list (all models):", len(ref_all), len(pressures_all))
@@ -318,8 +318,8 @@ def get_mean_anomalies():
 
     perturbation = "q_dtdt"
 
-    folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ","LMDZ"]
-    model_list = ["sam","wrf_kfeta","wrf_ntiedtke","wrf_nsas","wrf_bmj","wrf_camzm","cnrm","ummf","umbm","scam","lmdz6ab","lmdz6a"]
+    folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ","LMDZ","LMDZ"]
+    model_list = ["sam","wrf_kfeta","wrf_ntiedtke","wrf_nsas","wrf_bmj","wrf_camzm","cnrm","ummf","umbm","scam","lmdz6ab","lmdz6a","lmdz5a"]
 
     matrix_all = []
 
@@ -410,8 +410,8 @@ def get_pressure_levels_kuang_all_models():
     Get the 18 pressure levels of M^-1 matrix for all models
     """
 
-    folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ","LMDZ"]
-    model_list = ["sam","kfeta","ntiedtke","nsas","bmj","camzm","cnrm","ummf","umbm","scam","lmdz","lmdz"]
+    folder_list = ["SAM","WRF","WRF","WRF","WRF","WRF","CNRM","UMMF","UMBM","SCAM","LMDZ","LMDZ","LMDZ"]
+    model_list = ["sam","kfeta","ntiedtke","nsas","bmj","camzm","cnrm","ummf","umbm","scam","lmdz","lmdz","lmdz"]
 
     pressures_kuang_all = []
 
@@ -471,7 +471,7 @@ def get_anomalies_at_common_pressure_levels():
         anom9.append(np.interp(common_pressure_levels[n], pressures_kuang_all[9], anom_means_all[9]))
         anom10.append(np.interp(common_pressure_levels[n], pressures_kuang_all[10], anom_means_all[10]))
         anom11.append(np.interp(common_pressure_levels[n], pressures_kuang_all[11], anom_means_all[11]))
-        #anom12.append(np.interp(common_pressure_levels[n], pressures_kuang_all[12], anom_means_all[12]))
+        anom12.append(np.interp(common_pressure_levels[n], pressures_kuang_all[12], anom_means_all[12]))
 
     print ()
     print ("COMMON PRESSURE LEVELS (hPa):",common_pressure_levels)
@@ -489,20 +489,20 @@ def get_anomalies_at_common_pressure_levels():
     print("SCAM = ", anom9)
     print("LMDZ6Ab = ", anom10)
     print("LMDZ6A = ", anom11)
-    #print("LMDZ5A = ", anom12)
+    print("LMDZ5A = ", anom12)
     print()
 
-    return anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10,anom11
+    return anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10,anom11,anom12
 
 def get_correlations():
 
     common_pressure_levels = get_common_pressure_list()
     rh_at_common_pressure_levels = get_rh_at_common_pressure_levels()
-    anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10,anom11 = get_anomalies_at_common_pressure_levels()
+    anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10,anom11,anom12 = get_anomalies_at_common_pressure_levels()
 
     from scipy.stats import pearsonr, spearmanr
 
-    zipped = zip(anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10,anom11)
+    zipped = zip(anom0,anom1,anom2,anom3,anom4,anom5,anom6,anom7,anom8,anom9,anom10,anom11,anom12)
 
     anom_zipped = []
 
@@ -593,7 +593,7 @@ def plot_corr_matrix():
 
     plt.tight_layout()
 
-    #plt.savefig('../../../_PLOTS/_FINAL/corr_RH_vs_Q_DTDT_set_negative_to_zero.png',dpi=300)
+    plt.savefig('../../../_PLOTS/_FINAL/corr_RH_vs_Q_DTDT_set_negative_to_zero.png',dpi=300)
 
     plt.show()
 

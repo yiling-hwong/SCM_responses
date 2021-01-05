@@ -5,7 +5,8 @@ Created on 13 August 2020
 
 @author: Yi-Ling HWONG <yiling.hwong@gmail.com>
 
-This script plots the T and q response vertical profiles for all models or selected models
+This script plots the T and q response vertical profiles for all models or selected models.
+These profiles are extracted columns from the M_inv matrix
 
 """
 
@@ -13,13 +14,13 @@ This script plots the T and q response vertical profiles for all models or selec
 Set parameters here
 """
 
-plot_all_profiles = True
+plot_all_profiles = False
 plot_selected_profiles = True
 
 # set one of the following to True (perturb dT/dt or dq/dt)
 # Only used if plot_all_profiles = True
-perturb_t = False
-perturb_q = True
+perturb_t = True
+perturb_q = False
 
 # set state anomaly to either "T" or "q"
 state_anomaly = "T"
@@ -27,29 +28,32 @@ state_anomaly = "T"
 # select index of model to plot (listed below)
 # used only if plot_selected_profiles = True
 if state_anomaly == "T":
-    model_index_to_plot = [0,1,7,8] # SAM, CNRM + UM-MF for T'
+    model_index_to_plot = [0,1,10,7] # SAM, CNRM + UM-MF for T'
 elif state_anomaly == "q":
-    model_index_to_plot = [0,1,5,4] # SAM, WRF-BMJ and WRF-NSAS for q'
+    model_index_to_plot = [0,1,4,6] # SAM, WRF-BMJ and WRF-NSAS for q'
 
 # 0=perturbation shape
 # 1=SAM
 # 2=WRF-KF
 # 3=WRF-NT
-# 4=WRF-NSAS
-# 5=WRF-BMJ
-# 6=WRF-ZM
-# 7=CNRM
-# 8=UM-MF
-# 9=UM-SBM
-# 10=SCAM
-# 11=LMDZ
+# 4=WRF-BMJ
+# 5=WRF-ZM
+# 6=WRF-NSAS
+# 7=UM-MF
+# 8=UM-SBM
+# 9=SCAM
+# 10=CNRM
+# 11=LMDZ5A
+# 12=LMDZ6A
+# 13=LMDZ6Ab
 
 #-------------------------
 
 import matplotlib.pyplot as plt
 
-folder_list = ["SAM", "WRF", "WRF", "WRF", "WRF", "WRF", "CNRM", "UMMF", "UMBM", "SCAM", "LMDZ"]
-model_list = ["SAM", "kfeta", "ntiedtke", "nsas", "bmj", "camzm", "cnrm", "UMMF", "UMBM", "SCAM", "LMDZ6Ab"]
+folder_list = ["SAM", "WRF", "WRF", "WRF", "WRF", "WRF", "UMMF", "UMBM", "SCAM", "CNRM", "LMDZ", "LMDZ", "LMDZ"]
+model_list = ["SAM", "kfeta", "ntiedtke", "bmj", "camzm", "nsas", "UMMF", "UMBM", "SCAM", "CNRM", "LMDZ5A", "LMDZ6A",
+              "LMDZ6Ab"]
 
 def get_response_data_per_quadrat():
 
@@ -173,7 +177,7 @@ def get_responses_data_for_state_anomaly():
     # DTDT
     for n in range(len(folder_list)):
 
-        if folder_list[n] == "UMMF":
+        if model_list[n] == "SCAM" or model_list[n] == "UMMF" or model_list[n] == "LMDZ6Ab":
             lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DTDT_02_norm_kuang.csv", "r").readlines()
         else:
             lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DTDT_05_norm_kuang.csv", "r").readlines()
@@ -195,7 +199,7 @@ def get_responses_data_for_state_anomaly():
         # DQDT
         for n in range(len(folder_list)):
 
-            if folder_list[n] == "UMMF":
+            if model_list[n] == "SCAM" or model_list[n] == "UMMF" or model_list[n] == "LMDZ6Ab":
                 lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DQDT_01_norm_kuang.csv","r").readlines()
             else:
                 lines = open("../../data/" + folder_list[n] + "/anomalies/normalised/" + model_list[n] + "_" + state_anomaly + "_DQDT_02_norm_kuang.csv", "r").readlines()
@@ -233,20 +237,6 @@ def plot_responses_all():
     for n in range(0,len(pressures_all[0])):
         x_zero.append(0.0)
 
-    if perturb_t == True:
-
-        if state_anomaly == "T":
-            perturbation = "T_DTDT"
-        elif state_anomaly == "q":
-            perturbation = "Q_DTDT"
-
-    if perturb_q == True:
-
-        if state_anomaly == "T":
-            perturbation = "T_DQDT"
-        elif state_anomaly == "q":
-            perturbation = "Q_DQDT"
-
     #############################
     # PLOT
     #############################
@@ -254,11 +244,13 @@ def plot_responses_all():
     print ()
     print ("Plotting responses for all models...")
 
-    plot_titles = ["(a) Perturbation","(b) SAM (CRM)","(c) WRF-KF","(d) WRF-NT","(e) WRF-NSAS",
-                   "(f) WRF-BMJ","(g) WRF-ZM","(h) CNRM","(i) UM-MF","(j) UM-SBM","(k) SCAM","(l) LMDZ6Ab"]
+    plot_titles = ["(a) Perturbation","(b) SAM (CRM)","(c) WRF-KF","(d) WRF-NT","(e) WRF-BMJ",
+                   "(f) WRF-ZM","(g) WRF-NSAS","(h) UM-MF","(i) UM-SBM","(j) SCAM","(k) CNRM","(l) LMDZ5A","(m) LMDZ6A","(n) LMDZ6Ab"]
 
-    fig, axs = plt.subplots(nrows=3, ncols=4, figsize=(12, 13), facecolor='w', edgecolor='k')
+    fig, axs = plt.subplots(nrows=4, ncols=4, figsize=(12, 16), facecolor='w', edgecolor='k')
     fig.subplots_adjust(hspace=.5, wspace=.001)
+    fig.delaxes(axs[3, 2])
+    fig.delaxes(axs[3, 3])
 
     axs = axs.ravel()
 
@@ -275,24 +267,27 @@ def plot_responses_all():
         axs[i].set_ylim(axs[i].get_ylim()[::-1])  # invert y axis when y axis is pressure
 
         if i == 0:
-            if perturbation == "T_DTDT" or perturbation == "Q_DTDT":
+
+            axs[i].legend(loc="upper right", fontsize=legend_fontsize)
+
+            if perturb_t == True:
                 axs[i].set_xlim([-0.04, 0.54])  # for T'
                 axs[i].set_xticks([0.0,0.1,0.2,0.3,0.4,0.5])
                 x_label = "dT/dt [K d$\mathregular{^{-1}}$]"
 
-            if perturbation == "T_DQDT" or perturbation == "Q_DQDT":
+            if perturb_q == True:
                 axs[i].set_xlim([-0.015, 0.215])  # for T'
                 axs[i].set_xticks([0.0,0.1,0.2])
                 x_label = "dq/dt [g kg$\mathregular{^{-1}}$ d$\mathregular{^{-1}}$]"
 
         else:
 
-            if perturbation == "T_DTDT" or perturbation == "T_DQDT":
+            if state_anomaly == "T":
                 axs[i].set_xlim([-0.35, 1.05])  # for T'
                 axs[i].set_xticks([-0.3, 0.0, 0.3, 0.6, 0.9])
                 x_label = "T' [K]"
 
-            if perturbation == "Q_DTDT" or perturbation == "Q_DQDT":
+            if state_anomaly == "q":
                 axs[i].set_xlim([-0.3, 0.5])  # for q'
                 axs[i].set_xticks([-0.2, 0.0, 0.2, 0.4])
                 x_label = "q' [g kg$\mathregular{^{-1}}$]"
@@ -303,8 +298,6 @@ def plot_responses_all():
         axs[i].set_ylabel(y_label, fontsize=label_fontsize)
 
         axs[i].set_title(plot_titles[i], fontsize=title_fontsize)
-
-    axs.flatten()[3].legend(loc='upper center', bbox_to_anchor=(0.3, 1.25), ncol=2, fontsize=legend_fontsize)
 
     plt.tight_layout()
 
@@ -333,8 +326,8 @@ def plot_responses_selected():
     print ()
     print ("Plotting responses for selected models...")
 
-    plot_titles = ["Perturbation","SAM (CRM)","WRF-KF","WRF-NT","WRF-NSAS",
-                   "WRF-BMJ","WRF-ZM","CNRM","UM-MF","UM-SBM","SCAM","LMDZ"]
+    plot_titles = ["Perturbation","SAM (CRM)","WRF-KF","WRF-NT","WRF-BMJ",
+                   "WRF-ZM","WRF-NSAS","UM-MF","UM-SBM","SCAM","CNRM","LMDZ5A","LMDZ6A","LMDZ6Ab"]
 
     fig, axs = plt.subplots(nrows=2, ncols=4, figsize=(18, 13), facecolor='w', edgecolor='k')
     fig.subplots_adjust(hspace=0.5, wspace=.001)
