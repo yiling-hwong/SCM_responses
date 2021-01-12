@@ -15,6 +15,7 @@ Select mean state to plot here (T or RH)
 
 plot_T_sensitivity = True # plot theta_es sensitivity
 plot_rh_sensitivity = True
+include_cape_theta_eb_annotation = False
 
 # plot parameters
 cape_fontsize = 17
@@ -253,37 +254,38 @@ def plot_sensitivity(var):
 
             theta_x_position = theta_es_pbl[i-1] - 2
 
-            ax.annotate("$\overline{θ_{e}^{b}}$", (theta_x_position, 975), fontsize=label_fontsize, color="red")
+            if include_cape_theta_eb_annotation == True:
 
-            ax.annotate("$\overline{CAPE}$ = "+str(cape_pbl[i-1])+" J kg$\mathregular{^{-1}}$", (333.5, 750), fontsize=cape_fontsize)
+                ax.annotate("$\overline{θ_{e}^{b}}$", (theta_x_position, 975), fontsize=label_fontsize, color="red")
+                ax.annotate("$\overline{CAPE}$ = "+str(cape_pbl[i-1])+" J kg$\mathregular{^{-1}}$", (333.5, 750), fontsize=cape_fontsize)
 
-            # Plot 2nd overlapping x axis for theta_e_sfc
+                # Plot 2nd overlapping x axis for theta_e_sfc
 
-            ax2 = ax.twiny()
+                ax2 = ax.twiny()
 
-            # Move twinned axis ticks and label from top to bottom
-            ax2.xaxis.set_ticks_position("bottom")
-            ax2.xaxis.set_label_position("bottom")
+                # Move twinned axis ticks and label from top to bottom
+                ax2.xaxis.set_ticks_position("bottom")
+                ax2.xaxis.set_label_position("bottom")
 
-            # Offset the twin axis below the host
-            ax2.spines["bottom"].set_position(("axes", 0))
+                # Offset the twin axis below the host
+                ax2.spines["bottom"].set_position(("axes", 0))
 
-            # Turn on the frame for the twin axis, but then hide all
-            # but the bottom spine
-            ax2.set_frame_on(True)
-            ax2.patch.set_visible(False)
+                # Turn on the frame for the twin axis, but then hide all
+                # but the bottom spine
+                ax2.set_frame_on(True)
+                ax2.patch.set_visible(False)
 
-            ax2.spines["bottom"].set_visible(True)
+                ax2.spines["bottom"].set_visible(True)
 
-            ax2.set_xlim([314, 366])  # for T'
-            new_tick_locations = np.array([theta_es_pbl[i-1]])
+                ax2.set_xlim([314, 366])  # for T'
+                new_tick_locations = np.array([theta_es_pbl[i-1]])
 
-            ax2.set_xticks(new_tick_locations)
+                ax2.set_xticks(new_tick_locations)
 
-            invisible_xticks = [" "]
-            ax2.set_xticklabels(invisible_xticks,fontsize=label_fontsize)
+                invisible_xticks = [" "]
+                ax2.set_xticklabels(invisible_xticks,fontsize=label_fontsize)
 
-            ax2.tick_params(axis='x', colors='red',size=6)
+                ax2.tick_params(axis='x', colors='red',size=6)
 
         if var == "rh":
 
@@ -341,38 +343,39 @@ def plot_sensitivity(var):
 
             theta_x_position = theta_es_mp[i - 5] - 2
 
-            ax.annotate("$\overline{θ_{e}^{b}}$", (theta_x_position, 975), fontsize=label_fontsize, color="red")
+            if include_cape_theta_eb_annotation == True:
 
-            ax.annotate("$\overline{CAPE}$ = " + str(cape_mp[i - 5]) + " J kg$\mathregular{^{-1}}$", (333.5, 750),
-                        fontsize=cape_fontsize)
+                ax.annotate("$\overline{θ_{e}^{b}}$", (theta_x_position, 975), fontsize=label_fontsize, color="red")
+                ax.annotate("$\overline{CAPE}$ = " + str(cape_mp[i - 5]) + " J kg$\mathregular{^{-1}}$", (333.5, 750),
+                            fontsize=cape_fontsize)
 
-            # Plot 2nd overlapping x axis for theta_e_sfc
+                # Plot 2nd overlapping x axis for theta_e_sfc
 
-            ax2 = ax.twiny()
+                ax2 = ax.twiny()
 
-            # Move twinned axis ticks and label from top to bottom
-            ax2.xaxis.set_ticks_position("bottom")
-            ax2.xaxis.set_label_position("bottom")
+                # Move twinned axis ticks and label from top to bottom
+                ax2.xaxis.set_ticks_position("bottom")
+                ax2.xaxis.set_label_position("bottom")
 
-            # Offset the twin axis below the host
-            ax2.spines["bottom"].set_position(("axes", 0))
+                # Offset the twin axis below the host
+                ax2.spines["bottom"].set_position(("axes", 0))
 
-            # Turn on the frame for the twin axis, but then hide all
-            # but the bottom spine
-            ax2.set_frame_on(True)
-            ax2.patch.set_visible(False)
+                # Turn on the frame for the twin axis, but then hide all
+                # but the bottom spine
+                ax2.set_frame_on(True)
+                ax2.patch.set_visible(False)
 
-            ax2.spines["bottom"].set_visible(True)
+                ax2.spines["bottom"].set_visible(True)
 
-            ax2.set_xlim([314, 366])  # for T'
-            new_tick_locations = np.array([theta_es_mp[i - 5]])
+                ax2.set_xlim([314, 366])  # for T'
+                new_tick_locations = np.array([theta_es_mp[i - 5]])
 
-            ax2.set_xticks(new_tick_locations)
+                ax2.set_xticks(new_tick_locations)
 
-            invisible_xticks = [" "]
-            ax2.set_xticklabels(invisible_xticks, fontsize=label_fontsize)
+                invisible_xticks = [" "]
+                ax2.set_xticklabels(invisible_xticks, fontsize=label_fontsize)
 
-            ax2.tick_params(axis='x', colors='red', size=6)
+                ax2.tick_params(axis='x', colors='red', size=6)
 
         if var == "rh":
 
