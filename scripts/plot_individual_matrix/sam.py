@@ -11,12 +11,12 @@ from utils import *
 
 class SAM():
 
-    def __init__(self,standardise_kuang,perturb_t,perturb_q,var_x,t_amplitude,q_amplitude):
+    def __init__(self,standardise_kuang,perturb_t,perturb_q,state_anomaly,t_amplitude,q_amplitude):
 
         self.standardise_kuang = standardise_kuang
         self.perturb_t = perturb_t
         self.perturb_q = perturb_q
-        self.var_x = var_x
+        self.state_anomaly = state_anomaly
         self.t_amplitude = t_amplitude
         self.q_amplitude = q_amplitude
 
@@ -30,7 +30,7 @@ class SAM():
         print ("SAM")
         print ()
 
-        lines1 = open("/Users/yi-linghwong/Documents/postdoc/publications/paracon_scm_paper/_DATA/_SAM/matrix_X/p.csv","r").readlines()
+        lines1 = open("../../data/SAM/matrix_X_raw/p.csv","r").readlines()
 
         pressures = []
 
@@ -49,19 +49,6 @@ class SAM():
         self.pressures_x = self.pressures_q
         self.pressures_y = self.pressures_q
 
-        # if perturb_t == 1 and var_x == "T_PHY":
-        #     self.pressures_x = self.pressures_t
-        #     self.pressures_y = self.pressures_t
-        # elif perturb_t == 1 and var_x == "QVAPOR":
-        #     self.pressures_x = self.pressures_t
-        #     self.pressures_y = self.pressures_q
-        # elif perturb_q == 1 and var_x == "T_PHY":
-        #     self.pressures_x = self.pressures_q
-        #     self.pressures_y = self.pressures_t
-        # elif perturb_q == 1 and var_x == "QVAPOR":
-        #     self.pressures_x = self.pressures_q
-        #     self.pressures_y = self.pressures_q
-
 
     def get_X_anomaly(self):
 
@@ -71,14 +58,14 @@ class SAM():
 
         perturb_t = self.perturb_t
         perturb_q = self.perturb_q
-        var_x = self.var_x
+        state_anomaly = self.state_anomaly
 
         start_level_t = self.start_level_t
         end_level_t = self.end_level_t
         start_level_q = self.start_level_q
         end_level_q = self.end_level_q
 
-        lines2 = open("/Users/yi-linghwong/Documents/postdoc/publications/paracon_scm_paper/_DATA/_SAM/matrix_X/X.csv","r").readlines()
+        lines2 = open("../../data/SAM/matrix_X_raw/X.csv","r").readlines()
 
         x_anomalies = []
 
@@ -89,13 +76,13 @@ class SAM():
 
         X_matrix_complete = np.array(x_anomalies)
 
-        if perturb_t == 1 and var_x == "T_PHY":
+        if perturb_t == True and state_anomaly == "T":
             X_anomaly_matrix = X_matrix_complete[:(end_level_q - start_level_q + 1), :(end_level_q - start_level_q + 1)]
-        elif perturb_t == 1 and var_x == "QVAPOR":
+        elif perturb_t == True and state_anomaly == "q":
             X_anomaly_matrix = X_matrix_complete[(end_level_t - start_level_t + 1):, :(end_level_q - start_level_q + 1)]
-        elif perturb_q == 1 and var_x == "T_PHY":
+        elif perturb_q == True and state_anomaly == "T":
             X_anomaly_matrix = X_matrix_complete[:(end_level_q - start_level_q + 1), (end_level_t - start_level_t + 1):]
-        elif perturb_q == 1 and var_x == "QVAPOR":
+        elif perturb_q == True and state_anomaly == "q":
             X_anomaly_matrix = X_matrix_complete[(end_level_t - start_level_t + 1):, (end_level_t - start_level_t + 1):]
 
         print ("Shape X_anomaly_matrix:",X_anomaly_matrix.shape)
@@ -117,7 +104,7 @@ class SAM():
         end_level_q = self.end_level_q
 
 
-        lines3 = open("/Users/yi-linghwong/Documents/postdoc/publications/paracon_scm_paper/_DATA/_SAM/matrix_X/dX.csv","r").readlines()
+        lines3 = open("../../data/SAM/matrix_X_raw/dX.csv","r").readlines()
 
         y_tendencies = []
 
@@ -128,9 +115,9 @@ class SAM():
 
         Y_tendency_matrix_complete = np.array(y_tendencies)
 
-        if perturb_t == 1:
+        if perturb_t == True:
             Y_tendency_matrix_extracted = Y_tendency_matrix_complete[:(end_level_q-start_level_q+1),:(end_level_q-start_level_q+1)]
-        elif perturb_q == 1:
+        elif perturb_q == True:
             Y_tendency_matrix_extracted = Y_tendency_matrix_complete[(end_level_t-start_level_t+1):,(end_level_t-start_level_t+1):]
 
 
@@ -155,13 +142,14 @@ class SAM():
 
         psfc = 1014.8
 
-        if perturb_t == 1:
+        if perturb_t == True:
             power_input_list = get_power_input_T(pressures,Y_tendency_matrix_extracted,psfc)
-        elif perturb_q == 1:
+        elif perturb_q == True:
             power_input_list = get_power_input_q(pressures,Y_tendency_matrix_extracted,psfc)
 
-        if standardise_kuang == 1:
+        if standardise_kuang == True:
             heat_kuang = get_power_input_kuang(perturb_t,perturb_q)
+
 
             if len(heat_kuang) == len(power_input_list):
                 standardised_heat = [ p / h for p,h in zip(power_input_list,heat_kuang)]
@@ -213,59 +201,59 @@ class SAM():
 
         perturb_t = self.perturb_t
         perturb_q = self.perturb_q
-        var_x = self.var_x
+        state_anomaly = self.state_anomaly
         pressures_x = self.pressures_x
         pressures_y = self.pressures_y
         M_inv = self.get_M_inv()
         standardise_kuang = self.standardise_kuang
 
-        if standardise_kuang == 1:
+        if standardise_kuang == True:
 
             vmax_t = vmax_kuang_t
             vmax_q = vmax_kuang_q
 
-            if perturb_t == 1 and var_x == "T_PHY":
+            if perturb_t == True and state_anomaly == "T":
                 plt_title = "T' to dT/dt perturb. [K]"
                 file_name = "t_dtdt_norm_kuang"
                 vmax = vmax_t
                 vmin = -vmax
-            elif perturb_t == 1 and var_x == "QVAPOR":
+            elif perturb_t == True and state_anomaly == "q":
                 plt_title = "q' to dT/dt perturb. [g/kg]"
                 file_name = "q_dtdt_norm_kuang"
                 vmax = vmax_q
                 vmin = -vmax
-            elif perturb_q == 1 and var_x == "T_PHY":
+            elif perturb_q == True and state_anomaly == "T":
                 plt_title = "T' to dq/dt perturb. [K]"
                 file_name = "t_dqdt_norm_kuang"
                 vmax = vmax_t
                 vmin = -vmax
-            elif perturb_q == 1 and var_x == "QVAPOR":
+            elif perturb_q == True and state_anomaly == "q":
                 plt_title = "q' to dq/dt perturb. [g/kg]"
                 file_name = "q_dqdt_norm_kuang"
                 vmax = vmax_q
                 vmin = -vmax
 
-        elif standardise_kuang == 0:
+        elif standardise_kuang == False:
 
             vmax_t = vmax_power_t
             vmax_q = vmax_power_q
 
-            if perturb_t == 1 and var_x == "T_PHY":
+            if perturb_t == True and state_anomaly == "T":
                 plt_title = "T' to dT/dt perturb. [K/(W m$\mathregular{^{-2}}$)]"
                 file_name = "t_dtdt_norm_power"
                 vmax = vmax_t
                 vmin = -vmax
-            elif perturb_t == 1 and var_x == "QVAPOR":
+            elif perturb_t == True and state_anomaly == "q":
                 plt_title = "q' to dT/dt perturb. [g/kg/(W m$\mathregular{^{-2}}$)]"
                 file_name = "q_dtdt_norm_power"
                 vmax = vmax_q
                 vmin = -vmax
-            elif perturb_q == 1 and var_x == "T_PHY":
+            elif perturb_q == True and state_anomaly == "T":
                 plt_title = "T' to dq/dt perturb. [K/(W m$\mathregular{^{-2}}$)]"
                 file_name = "t_dqdt_norm_power"
                 vmax = vmax_t
                 vmin = -vmax
-            elif perturb_q == 1 and var_x == "QVAPOR":
+            elif perturb_q == True and state_anomaly == "q":
                 plt_title = "q' to dq/dt perturb. [g/kg/(W m$\mathregular{^{-2}}$)]"
                 file_name = "q_dqdt_norm_power"
                 vmax = vmax_q
@@ -280,91 +268,11 @@ class SAM():
 
         plot_matrix(M_inv,pressures_x,pressures_y,plot_title,vmin,vmax)
 
-        if write_m_inv_to_file == 1:
+        if write_m_inv_to_file == True:
 
             file_name = "sam_" + file_name
 
             write_matrix_to_file(M_inv,"_SAM",file_name)
-
-
-
-    def plot_matrix_X_raw(self,vmax_t,vmax_q):
-
-        """
-        PLOT MATRIX X RAW (UNNORMALISED)
-        """
-
-        print ()
-        print ("#######################")
-        print ("PLOT X RAW")
-        print ()
-
-        perturb_t = self.perturb_t
-        perturb_q = self.perturb_q
-        var_x = self.var_x
-        pressures_x = self.pressures_x
-        pressures_y = self.pressures_y
-
-        start_level_t = self.start_level_t
-        end_level_t = self.end_level_t
-        start_level_q = self.start_level_q
-        end_level_q = self.end_level_q
-
-        #----------------------------------------------
-        # GET raw X
-
-        lines2 = open("/Users/yi-linghwong/Documents/postdoc/publications/paracon_scm_paper/_DATA/_SAM/X.csv","r").readlines()
-
-        x_anomalies = []
-
-        for line in lines2:
-            spline = line.rstrip("\n").split(",")
-            spline = [float(s) for s in spline]
-            x_anomalies.append(spline)
-
-        X_matrix_complete = np.array(x_anomalies)
-
-        if perturb_t == 1 and var_x == "T_PHY":
-            X_anomaly_matrix = X_matrix_complete[:(end_level_q - start_level_q + 1), :(end_level_q - start_level_q + 1)]
-        elif perturb_t == 1 and var_x == "QVAPOR":
-            X_anomaly_matrix = X_matrix_complete[(end_level_t - start_level_t + 1):, :(end_level_q - start_level_q + 1)]
-        elif perturb_q == 1 and var_x == "T_PHY":
-            X_anomaly_matrix = X_matrix_complete[:(end_level_q - start_level_q + 1), (end_level_t - start_level_t + 1):]
-        elif perturb_q == 1 and var_x == "QVAPOR":
-            X_anomaly_matrix = X_matrix_complete[(end_level_t - start_level_t + 1):, (end_level_t - start_level_t + 1):]
-
-        print ("Shape X_anomaly_matrix:",X_anomaly_matrix.shape)
-
-        #--------------------------------------------------------
-
-        vmax_t = vmax_t
-        vmax_q = vmax_q
-
-        if perturb_t == 1 and var_x == "T_PHY":
-            plt_title = "T' to dT/dt perturb. [K]"
-            vmax = vmax_t
-            vmin = -vmax
-        elif perturb_t == 1 and var_x == "QVAPOR":
-            plt_title = "q' to dT/dt perturb. [g/kg]"
-            vmax = vmax_q
-            vmin = -vmax
-        elif perturb_q == 1 and var_x == "T_PHY":
-            plt_title = "T' to dq/dt perturb. [K]"
-            vmax = vmax_t
-            vmin = -vmax
-        elif perturb_q == 1 and var_x == "QVAPOR":
-            plt_title = "q' to dq/dt perturb. [g/kg]"
-            vmax = vmax_q
-            vmin = -vmax
-
-        plot_title = "X, SAM " + plt_title
-
-        print()
-        print("X RAW anomaly SHAPE:", X_anomaly_matrix.shape)
-        print("MAX value of X:", np.amax(X_anomaly_matrix))
-        print("MIN value of X:", np.amin(X_anomaly_matrix))
-
-        plot_matrix(X_anomaly_matrix,pressures_x,pressures_y,plot_title,vmin,vmax)
 
 
     def plot_anomaly_profile(self,write_anomaly_to_file,target_level_1,target_level_2,label_level_1,label_level_2):
@@ -377,7 +285,7 @@ class SAM():
         standardise_kuang = self.standardise_kuang
         perturb_t = self.perturb_t
         perturb_q = self.perturb_q
-        var_x = self.var_x
+        state_anomaly = self.state_anomaly
         t_amplitude = self.t_amplitude
         q_amplitude = self.q_amplitude
         M_inv = self.get_M_inv()
@@ -396,9 +304,9 @@ class SAM():
 
         plot_title = "SAM"
 
-        plot_profile(standardise_kuang,pressures_y,x_profile_1,x_profile_2,m_profile_1,m_profile_2,plot_title,label_level_1,label_level_2,var_x)
+        plot_profile(standardise_kuang,pressures_y,x_profile_1,x_profile_2,m_profile_1,m_profile_2,plot_title,label_level_1,label_level_2,state_anomaly)
 
-        if write_anomaly_to_file == 1:
+        if write_anomaly_to_file == True:
 
             if t_amplitude == 0.5:
                 t_amp = "05"
@@ -410,13 +318,13 @@ class SAM():
             elif q_amplitude == 0.1:
                 q_amp = "01"
 
-            if perturb_t == 1 and var_x == "T_PHY":
+            if perturb_t == True and state_anomaly == "T":
                 file_name = "SAM_T_DTDT_" + t_amp
-            elif perturb_t == 1 and var_x == "QVAPOR":
+            elif perturb_t == True and state_anomaly == "q":
                 file_name = "SAM_Q_DTDT_" + t_amp
-            elif perturb_q == 1 and var_x == "T_PHY":
+            elif perturb_q == True and state_anomaly == "T":
                 file_name = "SAM_T_DQDT_" + q_amp
-            elif perturb_q == 1 and var_x == "QVAPOR":
+            elif perturb_q == True and state_anomaly == "q":
                 file_name = "SAM_Q_DQDT_" + q_amp
 
             write_profiles_to_file(standardise_kuang,pressures_y,x_profile_1,x_profile_2,m_profile_1,m_profile_2,"_SAM",file_name,

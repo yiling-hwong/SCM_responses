@@ -25,7 +25,7 @@ from scam import SCAM
 """
 
 # Set model. Options: sam,wrf,umbm,ummf,lmdz,cnrm,scam
-model = "wrf" # sam,wrf,umbm,ummf,lmdz,cnrm,scam
+model = "sam" # sam,wrf,umbm,ummf,lmdz,cnrm,scam
 
 # For WRF only. Options: kfeta,ntiedtke,nsas,camzm,bmj
 scheme = "camzm"
@@ -37,12 +37,12 @@ lmdz_version = "6ab"
 standardise_kuang = True
 
 # Select functions to run
-plot_M_inv_matrix = True
+plot_M_inv_matrix = False
 plot_anomaly_profiles_2_levels = True # plot anomaly profiles for 850 and 650 hPa
 
 # Set one of the following to True (perturb dT/dt or dq/dt)
-perturb_t = True
-perturb_q = False
+perturb_t = False
+perturb_q = True
 
 # Set state anomaly to either "T" or "q"
 state_anomaly = "T"
