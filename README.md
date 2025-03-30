@@ -1,5 +1,8 @@
 # SCM responses
-This repository contains the data and scripts required to reproduce the results of the paper "Characterizing Convection Schemes Using Their Responses to Convective Tendency Perturbations" submitted to the *Journal of Advances of Modeling Earth Systems (JAMES)*. 
+This repository contains the data and scripts required to reproduce the results of the paper "Characterizing Convection Schemes Using Their Responses to Convective Tendency Perturbations" published in the *Journal of Advances of Modeling Earth Systems (JAMES)*. 
+
+The published manuscript about this work should be cited as:**  
+Hwong, Y. L., Song, S., Sherwood, S. C., Stirling, A. J., Rio, C., Roehrig, R., ... & Touzé‐Peiffer, L. (2021). Characterizing convection schemes using their responses to imposed tendency perturbations. Journal of Advances in Modeling Earth Systems, 13(5), e2021MS002461, https://doi.org/10.1029/2021MS002461 
 
 ## Brief description of project
 
